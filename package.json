@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@decent.xyz/sdk": "^0.2.0",
+    "@headlessui/react": "^1.7.5",
+    "@heroicons/react": "^2.0.13",
     "@privy-io/react-auth": "^1.7.0",
     "@typeform/embed-react": "^2.7.0",
     "@vercel/analytics": "^0.1.5",

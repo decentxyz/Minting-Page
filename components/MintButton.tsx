@@ -7,7 +7,7 @@ import handleTxError from "../lib/handleTxError";
 
 
 const MintButton = (props:any) => {
-  const { getEthersProvider } = usePrivy();
+  const { ready, authenticated, user, linkWallet, getEthersProvider } = usePrivy();
   const [isMinting, setIsMinting] = useState(false);
 
   const onSigning = (isMinting:boolean) => {
@@ -24,7 +24,7 @@ const MintButton = (props:any) => {
   }
 
   const mint = async () => {
-    if (getEthersProvider().getSigner()) {
+    if (user?.wallet) {
       try {
         onSigning?.(true);
         const sdk = new DecentSDK(props.chainId, getEthersProvider().getSigner());
@@ -38,6 +38,9 @@ const MintButton = (props:any) => {
       }
     } else {
       toast.error("Please connect wallet to continue.");
+      if (ready && authenticated) {
+        linkWallet(); 
+      }
     }
   }
 
