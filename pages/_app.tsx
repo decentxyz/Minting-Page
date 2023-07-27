@@ -1,68 +1,47 @@
 import "@decent.xyz/the-box/dist/the-box-base.css";
-import '@rainbow-me/rainbowkit/styles.css'; 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Navbar from '../components/Navbar/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Analytics } from "@vercel/analytics/react";
-import { configureChains, WagmiConfig, createClient } from 'wagmi';
+import {PrivyProvider} from '@privy-io/react-auth';
+import { PrivyWagmiConnector } from "@privy-io/wagmi-connector";
+import { configureChains } from 'wagmi';
 import { arbitrum, optimism, mainnet, polygon } from "wagmi/chains";
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
-import { RainbowKitProvider, getDefaultWallets, lightTheme } from "@rainbow-me/rainbowkit";
- 
-const configureChainsConfig = configureChains(
-  [
-    optimism,
-    arbitrum,
-    polygon,
-    mainnet,
-  ],
-  [
-    alchemyProvider({
-      apiKey: `${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-      priority: 0,
-    }),
-    publicProvider({ priority: 1 }),
-  ]
-);
-
-const { chains, provider, webSocketProvider } = configureChainsConfig;
-
-const { connectors } = getDefaultWallets({
-  appName: 'Minting Page',
-  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string,
-  chains,
-});
-
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider,
-  webSocketProvider,
-});
+import { alchemyProvider } from "wagmi/providers/alchemy";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  
+  const handleLogin = (user:any) => {
+    console.log(`User ${user.id} logged in!`)
+  };
+
+  const configureChainsConfig = configureChains(
+    [arbitrum, optimism, mainnet, polygon],
+    [
+      alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
+    ]
+  )
+
   return (
-    <WagmiConfig client={wagmiClient}>
-    <RainbowKitProvider
-      chains={chains}
-      modalSize="compact"
-      theme={lightTheme({
-        accentColor: '#9969FF',
-        accentColorForeground: 'white',
-        borderRadius: 'small',
-        fontStack: 'system',
-        overlayBlur: 'small',
-      })}
-      >
-      <Navbar />
-      <Component {...pageProps} />
-      <Analytics />
-      <ToastContainer />
-    </RainbowKitProvider>
-  </WagmiConfig>
+    <PrivyProvider
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}
+      onSuccess={handleLogin}
+      config={{
+        loginMethods: ['email', 'wallet'],
+        appearance: {
+          theme: 'light',
+          accentColor: '#676FFF',
+          logo: 'https://your-logo-url',
+        },
+      }}
+    >
+      <PrivyWagmiConnector wagmiChainsConfig={configureChainsConfig}>
+        <Navbar />
+        <Component {...pageProps} />
+        <ToastContainer />
+      </PrivyWagmiConnector>
+    </PrivyProvider>
   );
 }
 
