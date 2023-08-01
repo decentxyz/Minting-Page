@@ -16,11 +16,16 @@ const Home: NextPage = (props: any) => {
   const [isVideo, setIsVideo] = useState(false);
 
   function checkVideo() {
-    if (props.nftDetails.metadata.mimeType.indexOf("mp4") !== -1) {
-      setIsVideo(true);
-    } else {
+    try {
+      if (props.nftDetails.metadata?.mimeType.indexOf("mp4") !== -1) {
+        setIsVideo(true);
+      } else {
+        return;
+      };
+    } catch (e) {
+      console.log(e);
       return;
-    };
+    }
   };
 
   useEffect(() => {
@@ -51,10 +56,10 @@ const Home: NextPage = (props: any) => {
         name="description"
         content={props.nftDetails.metadata.description}
       />
-      <link rel="icon" href={props.nftDetails.metadata.image} />
+      <link rel="icon" href={props.nftDetails.metadata?.image || "/"} />
       <meta property='og:type' content="website" />
       <meta property='og:url' content={"https://featured.decent.xyz/"} />
-      <meta property='og:image' content={props.nftDetails.metadata.image} />
+      <meta property='og:image' content={props.nftDetails.metadata?.image || "/"} />
       <meta property='og:title' content={props.nftDetails.metadata.title} />
       <meta property='og:description' content={props.nftDetails.metadata.description} />
       <meta name='twitter:card' content={"summary_large_image"} />
@@ -82,17 +87,17 @@ const Home: NextPage = (props: any) => {
 
         <div className='md:w-3/5 collectionBannerFlex flex items-center relative'>
           {isVideo ? 
-            <video className="drop-shadow-lg rounded-lg absolute inset-0 w-full h-full object-cover" src={props.nftDetails?.metadata.media} autoPlay loop playsInline muted />
-            : <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails.metadata?.image} fill alt={'nft'} />
+            <video className="drop-shadow-lg rounded-lg absolute inset-0 w-full h-full object-cover" src={props.nftDetails?.metadata?.media || "/"} autoPlay loop playsInline muted />
+            : <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails.metadata?.image || "/"} fill alt={'nft'} />
           }
           <div ref={blurRef} className="blurrer"></div>
           <div className='space-y-3'>
             <div className='flex justify-center'>
               {isVideo ? 
                 <div style={{ height: "85%", width: "85%", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
-                  <video className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata.media} autoPlay loop playsInline muted style={{ width: "100%", height: "100%" }} />
+                  <video className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata?.media || "/"} autoPlay loop playsInline muted style={{ width: "100%", height: "100%" }} />
                 </div>
-                : <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata.image} height={600} width={600} alt={'nft'} />
+                : <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata?.image || "/"} height={600} width={600} alt={'nft'} />
               }
             </div>
           </div>
@@ -128,9 +133,9 @@ export async function getStaticProps() {
   {/* -------------------------NFT Settings-------------------------- */}
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
-    decentNft: true,
-    address: '0x80F4bABDcba710E6B0C07c760c3C5B061C31b6C0',
-    chainId: 10,
+    decentNft: false,
+    address: '0x55e52E9A41292ca1E862d6C88Cc2A1FE826d6984',
+    chainId: 137,
     mintPrice: "0.0",
     maxTokens: 4294967295,
     sellOutDate: 4294967295
