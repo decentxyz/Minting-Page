@@ -3,9 +3,9 @@ import { useRef, useEffect, useState } from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Image from 'next/image';
-import MarketplaceButtons from '../components/MarketplaceButtons';
+// import MarketplaceButtons from '../components/MarketplaceButtons';
 import { getDecentNftDetails, getNftDetails } from '../lib/getReleaseDetails';
-import CountdownText from '../components/CountdownText';
+// import CountdownText from '../components/CountdownText';
 import Box from "../components/Box";
 
 const Home: NextPage = (props: any) => {
