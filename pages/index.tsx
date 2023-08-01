@@ -111,13 +111,13 @@ const Home: NextPage = (props: any) => {
         <p className='text-right text-[#A378FF]'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | {props.constants.maxTokens > 999999 ? "Open" : props.constants.maxTokens}</p>
       </div>
       {/* if open indefinitely, replace sale countdown */}
-      <div className='hidden sm:inline-block'>
+      {/* <div className='hidden sm:inline-block'>
         <MarketplaceButtons decentLink={"https://decent.xyz"} />
       </div>
       <div className='flex gap-4'>
         <p>Sale Ends:</p>
         <CountdownText className='text-[#A378FF] sm:w-40' dropTime={endDate} />
-      </div>
+      </div> */}
     </footer>
   </>
 };
@@ -129,7 +129,7 @@ export async function getStaticProps() {
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
     decentNft: true,
-    address: '0x80F4bABDcba710E6B0C07c760c3C5B061C31b6C0',
+    address: '0xE4e2f17E439eeB2345baE76B6A4F634c3A708015',
     chainId: 10,
     mintPrice: "0.0",
     maxTokens: 4294967295,
