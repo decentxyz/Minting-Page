@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import NumberTicker from "./NumberTicker";
 import { useAccount, useSigner } from "wagmi";
-import { getContractFee } from "../lib/getContractFee";
 
 {/* IMPORTANT UPDATE: need to make sure the mint params are valid for your NFT.  The information below is works for all Decent NFTs & should serve as a good example of what correct inputs look like.  If you are using a Decent NFT, you do not need to change this!  If you are not, then you do need to update the abi and params -- the rest of the information SHOULD be set in getStaticProps on index.tsx, but be sure to double check. */}
 
@@ -28,9 +27,9 @@ const Box = (props:any):JSX.Element => {
         chainId: props.constants.chainId,
         paymentToken: ethers.constants.AddressZero,
         mintParams: {
-          abi: "function mint(address to,uint256 numberOfTokens) payable",
+          abi: "function mint(address to, uint256 quantity) payable",
           params: [account, quantity],  
-          cost: ethers.utils.parseEther(props.constants.mintPrice).add(getContractFee(props.constants.chainId) || 0).mul(quantity),
+          cost: ethers.utils.parseEther(props.constants.mintPrice),
           endSupply: {// only need one of the below
             maxCap: props.constants.maxTokens,
             // sellOutDate: props.constants.sellOutDate,

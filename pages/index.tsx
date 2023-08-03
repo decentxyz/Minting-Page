@@ -15,16 +15,16 @@ const Home: NextPage = (props: any) => {
   const [nftsMinted, setNftsMinted] = useState("");
   const [isVideo, setIsVideo] = useState(false);
 
-  function checkVideo() {
-    if (props.nftDetails.metadata.mimeType.indexOf("mp4") !== -1) {
-      setIsVideo(true);
-    } else {
-      return;
-    };
-  };
+  // function checkVideo() {
+  //   if (props.nftDetails?.metadata?.mimeType.indexOf("mp4") !== -1) {
+  //     setIsVideo(true);
+  //   } else {
+  //     return;
+  //   };
+  // };
 
   useEffect(() => {
-    checkVideo();
+    // checkVideo();
     async function loadMints() {
       if (props.constants.decentNft) {
         let contract = await getNftDetails(props.constants.chainId, props.constants.address);
@@ -127,13 +127,14 @@ export default Home;
 export async function getStaticProps() {
   {/* -------------------------NFT Settings-------------------------- */}
   // change constants to fetch your NFT & set data that cannot be determined dynamically
+  // information for Letter to My Degens PT. 2: https://www.sound.xyz/maliknaim/letter-to-my-degens-pt-2; https://optimistic.etherscan.io/address/0x5031f26FCC8AF88788d5000B73142c4a9f93F8b8#readContract
   let constants = {
-    decentNft: true,
-    address: '0x80F4bABDcba710E6B0C07c760c3C5B061C31b6C0',
+    decentNft: false,
+    address: '0x5031f26FCC8AF88788d5000B73142c4a9f93F8b8',
     chainId: 10,
-    mintPrice: "0.0",
-    maxTokens: 4294967295,
-    sellOutDate: 4294967295
+    mintPrice: "0.0001",
+    maxTokens: 2147483647,
+    sellOutDate: 1691812740
   }
   {/* --------------------------------------------------------------- */}
 
