@@ -132,9 +132,10 @@ export default Home;
 export async function getStaticProps() {
   {/* -------------------------NFT Settings-------------------------- */}
   // change constants to fetch your NFT & set data that cannot be determined dynamically
+  // looking at this post to collect: https://lenster.xyz/posts/0x01a2ee-0x80
   let constants = {
     decentNft: false,
-    address: '0x55e52E9A41292ca1E862d6C88Cc2A1FE826d6984',
+    address: '0x665D9E9Eb707aA39FF2CEb0dE255881047F92357',
     chainId: 137,
     mintPrice: "0.0",
     maxTokens: 4294967295,

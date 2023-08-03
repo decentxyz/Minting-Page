@@ -28,8 +28,8 @@ const Box = (props:any):JSX.Element => {
         chainId: props.constants.chainId,
         paymentToken: ethers.constants.AddressZero,
         mintParams: {
-          abi: "function mint(address to) external",
-          params: [account],  
+          abi: "function processCollect(uint256 referrerProfileId, address collector, uint256 profileId, uint256 pubId, bytes calldata data)",
+          params: [142, account, '0x8e', '0x0bd7', '0x'],  
           cost: ethers.utils.parseEther(props.constants.mintPrice),
           endSupply: {// only need one of the below
             maxCap: props.constants.maxTokens,
