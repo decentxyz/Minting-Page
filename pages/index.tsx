@@ -135,7 +135,7 @@ export async function getStaticProps() {
   // looking at this post to collect: https://lenster.xyz/posts/0x01a2ee-0x80
   let constants = {
     decentNft: false,
-    address: '0x665D9E9Eb707aA39FF2CEb0dE255881047F92357',
+    address: '0xdd3f6c22ecc68007cc9f76da18984995da4b7b82',
     chainId: 137,
     mintPrice: "0.0",
     maxTokens: 4294967295,
