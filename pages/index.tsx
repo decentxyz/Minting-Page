@@ -6,7 +6,7 @@ import Image from 'next/image';
 import MarketplaceButtons from '../components/MarketplaceButtons';
 import { getDecentNftDetails, getNftDetails } from '../lib/getReleaseDetails';
 import CountdownText from '../components/CountdownText';
-import Box from "../components/Box";
+import MintButton from '../components/MintButton';
 
 const Home: NextPage = (props: any) => {
   const blurRef = useRef<HTMLDivElement | null>(null);
@@ -79,7 +79,7 @@ const Home: NextPage = (props: any) => {
           <div className='px-8 border-black border-t pt-8 md:inline-block w-full hidden pb-16'>
             <div className='w-full'> 
             {/* -------------------------MAKE SURE TO UPDATE THE BOX-------------------------- */}
-            <Box constants={props.constants} nftDetails={props.nftDetails} />
+            <MintButton />
             {/* ------------------------------------------------------------------------------ */}
             </div>
           </div>
@@ -104,7 +104,7 @@ const Home: NextPage = (props: any) => {
         </div>
         <div className='w-full flex justify-center my-12 md:hidden'>
           {/* -------------------------THE BOX-------------------------- */}
-          <Box constants={props.constants} nftDetails={props.nftDetails} />
+          <MintButton />
           {/* ----------------------------------------------------------- */}
         </div>
       </div>
@@ -134,12 +134,12 @@ export async function getStaticProps() {
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   // looking at this post to collect: https://lenster.xyz/posts/0x01a2ee-0x80
   let constants = {
-    decentNft: false,
-    address: '0xdd3f6c22ecc68007cc9f76da18984995da4b7b82',
-    chainId: 137,
+    decentNft: true,
+    address: '0x0A7AD1eafE5586787f217F5c57684a4494B0D5a5',
+    chainId: 10,
     mintPrice: "0.0",
     maxTokens: 4294967295,
-    sellOutDate: 4294967295
+    sellOutDate: 1693510200
   }
   {/* --------------------------------------------------------------- */}
 
