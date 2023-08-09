@@ -31,7 +31,7 @@ const Box = (props:any):JSX.Element => {
       actionConfig={{
         contractAddress: props.constants.address,
         chainId: props.constants.chainId,
-        // --- not required for Decent NFTs but including for completeness
+        // --- 
         signature: "function mint(address to,uint256 numberOfTokens) payable",
         args: [account, quantity],
         //---
