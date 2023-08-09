@@ -31,9 +31,9 @@ const Box = (props:any):JSX.Element => {
         chainId: props.constants.chainId,
         // --- not required for Decent NFTs but including for completeness
         signature: "function mint(address _to,uint256 _phaseId,uint256 _quantity,bytes _signature)",
-        args: [account, 0, quantity, 0x000000000000000000000000000000000000000000000000000000000000000],
+        args: [account, 0, quantity, ''],
         //---
-        supplyArgs: {
+        supplyConfig: {
           maxCap: props.constants.maxTokens,
         },
         cost: {

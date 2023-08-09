@@ -11,23 +11,23 @@ import { ChainId } from '@decent.xyz/the-box';
 
 const Home: NextPage = (props: any) => {
   const blurRef = useRef<HTMLDivElement | null>(null);
-  // const noEnd = 4294967295;
-  // const endDate = new Date(props.nftDetails.saleTimes?.saleEnd * 1000) || noEnd;
-  // const [nftsMinted, setNftsMinted] = useState("");
-  // const [isVideo, setIsVideo] = useState(false);
+  const noEnd = 4294967295;
+  const endDate = new Date(props.nftDetails.saleTimes?.saleEnd * 1000) || noEnd;
+  const [nftsMinted, setNftsMinted] = useState("");
+  const [isVideo, setIsVideo] = useState(false);
 
-  // useEffect(() => {
-  //   if (blurRef.current) blurRef.current.style.display = "none";
-  //   setTimeout(() => blurRef.current && (blurRef.current.style.display = "block"))
-  // }, []);
+  useEffect(() => {
+    if (blurRef.current) blurRef.current.style.display = "none";
+    setTimeout(() => blurRef.current && (blurRef.current.style.display = "block"))
+  }, []);
 
-  // const paragraphs = props.nftDetails.metadata.description.split('\n\n');
-  // const renderedParagraphs = paragraphs.map((paragraph: string, index: number) => (
-  //   <p className='py-2' key={index}>{paragraph}</p>
-  // ));
+  const paragraphs = props.nftDetails.metadata.description.split('\n\n');
+  const renderedParagraphs = paragraphs.map((paragraph: string, index: number) => (
+    <p className='py-2' key={index}>{paragraph}</p>
+  ));
 
   return <>
-    {/* <Head>
+    <Head>
       <title>{props.nftDetails.metadata.title}</title>
       <meta
         name="description"
@@ -44,15 +44,15 @@ const Home: NextPage = (props: any) => {
       <meta name='twitter:title' content={props.nftDetails.metadata.name} />
       <meta name='twitter:description' content={props.nftDetails.metadata.description} />
       <meta name='twitter:image' content={props.nftDetails.metadata.image} />
-    </Head> */}
+    </Head>
 
     <main className={`${styles.main} md:mt-0 sm:mt-16 mt-28`}>
       <div className='w-full flex flex-wrap'>
         <div className='md:border-r border-black w-full md:w-2/5 relative md:h-[80vh] overflow-y-auto'>
-          {/* <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-[#A378FF] pb-4 pt-8 md:mb-0 mb-4'>{props.nftDetails.metadata.title}</h1>
+          <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-[#A378FF] pb-4 pt-8 md:mb-0 mb-4'>{props.nftDetails.metadata.title}</h1>
           <div className='p-8'>
             {renderedParagraphs}
-          </div> */}
+          </div>
           <div className='px-8 border-black border-t pt-8 md:inline-block w-full hidden pb-16'>
             <div className='w-full'> 
             {/* -------------------------MAKE SURE TO UPDATE THE BOX-------------------------- */}
@@ -62,7 +62,7 @@ const Home: NextPage = (props: any) => {
           </div>
         </div>
 
-        {/* <div className='md:w-3/5 collectionBannerFlex flex items-center relative'>
+        <div className='md:w-3/5 collectionBannerFlex flex items-center relative'>
           {isVideo ? 
             <video className="drop-shadow-lg rounded-lg absolute inset-0 w-full h-full object-cover" src={props.nftDetails?.metadata.media} autoPlay loop playsInline muted />
             : <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails.metadata?.image} fill alt={'nft'} />
@@ -78,7 +78,7 @@ const Home: NextPage = (props: any) => {
               }
             </div>
           </div>
-        </div> */}
+        </div>
         <div className='w-full flex justify-center my-12 md:hidden'>
           {/* -------------------------THE BOX-------------------------- */}
           <Box constants={props.constants} nftDetails={props.nftDetails} />
@@ -87,7 +87,7 @@ const Home: NextPage = (props: any) => {
       </div>
     </main>
 
-    {/* <footer className='md:fixed bottom-0 w-full h-[10vh] border-t border-black justify-center flex items-center bg-white relative gap-12'>
+    <footer className='md:fixed bottom-0 w-full h-[10vh] border-t border-black justify-center flex items-center bg-white relative gap-12'>
       <div className='flex gap-4'>
         <p>Claimed:</p>
         <p className='text-right text-[#A378FF]'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | {props.constants.maxTokens > 999999 ? "Open" : props.constants.maxTokens}</p>
@@ -99,7 +99,7 @@ const Home: NextPage = (props: any) => {
         <p>Sale Ends:</p>
         <CountdownText className='text-[#A378FF] sm:w-40' dropTime={endDate} />
       </div>
-    </footer> */}
+    </footer>
   </>
 };
 
@@ -112,13 +112,13 @@ export async function getStaticProps() {
     decentNft: false,
 
     // Base Testnet:
-    // address: 'cf09bdc9783f32dec76503ff808f11c85aa43a80e0432f89290d9dccbdfd67',
+    // address: '0x0c664A85521d5721bca047d29238d9E2a9E9e861',
     // chainId: ChainId.BASE_TESTNET,
 
-    // This is why I'm Hot:
+    // Bitch better have my money:
     address: "0xCB8399D84e17fD5B4e955C716647c7BB2C35Ab63",
     chainId: ChainId.ETHEREUM,
-    mintPrice: "0.001",
+    mintPrice: "0.0",
     maxTokens: 100,
   }
   {/* --------------------------------------------------------------- */}
