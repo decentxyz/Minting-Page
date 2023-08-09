@@ -11,7 +11,11 @@ import { parseUnits } from "viem";
 const Box = (props:any):JSX.Element => {
   const { address: account } = useAccount();
   const [quantity, setQuantity] = useState(1);
-  // ((props.constants.mintPrice+getContractFee(props.constants.chainId))*quantity).toString()
+  const mintPrice = parseFloat(props.constants.mintPrice);
+  const chainId = props.constants.chainId;
+  const contractFee:number = chainId && getContractFee(chainId);
+  const total = (mintPrice + contractFee) * quantity;
+  const price = total.toString();
 
   return <div>
     <div className='text-xl font-[400] pb-4'>Mint:</div>
@@ -33,7 +37,7 @@ const Box = (props:any):JSX.Element => {
         //---
         cost: {
           isNative: true,
-          amount: parseUnits('0.00044', 18),
+          amount: parseUnits(price, 18),
         },
       }}
       onTxReceipt={() => toast.success("Successfully minted!")}
