@@ -1,4 +1,4 @@
-import { TheBox, ActionType, ChainId } from "@decent.xyz/the-box";
+import { TheBox, ActionType } from "@decent.xyz/the-box";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import NumberTicker from "./NumberTicker";
@@ -12,9 +12,7 @@ const Box = (props:any):JSX.Element => {
   const { address: account } = useAccount();
   const [quantity, setQuantity] = useState(1);
   const mintPrice = parseFloat(props.constants.mintPrice);
-  const chainId = props.constants.chainId;
-  const contractFee:number = chainId && getContractFee(chainId);
-  const total = (mintPrice + contractFee) * quantity;
+  const total = mintPrice * quantity;
   const price = total.toString();
 
   return <div>
@@ -27,14 +25,17 @@ const Box = (props:any):JSX.Element => {
     <TheBox
       className="rounded-lg border shadow-md bg-white dark"
       paymentButtonText="Pay now"
-      actionType={ActionType.NftMint}
+      actionType={ActionType.NftPreferMint}
       actionConfig={{
         contractAddress: props.constants.address,
         chainId: props.constants.chainId,
         // --- not required for Decent NFTs but including for completeness
-        signature: "function mint(address to,uint256 numberOfTokens) payable",
-        args: [account, quantity],
+        signature: "function mint(address _to,uint256 _phaseId,uint256 _quantity,bytes _signature)",
+        args: [account, 0, quantity, 0x000000000000000000000000000000000000000000000000000000000000000],
         //---
+        supplyArgs: {
+          maxCap: props.constants.maxTokens,
+        },
         cost: {
           isNative: true,
           amount: parseUnits(price, 18),
@@ -42,6 +43,7 @@ const Box = (props:any):JSX.Element => {
       }}
       onTxReceipt={() => toast.success("Successfully minted!")}
       apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
+      // enableTestnets={true}
     />
     {/* ----------------------------------------------------------- */}
   </div>

@@ -25,13 +25,17 @@ import {
   optimism,
   arbitrum,
   base,
+  goerli,
+  baseGoerli,
+  arbitrumGoerli,
+  optimismGoerli
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
  
 
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base],
+  [mainnet, polygon, optimism, arbitrum, base, goerli, baseGoerli, optimismGoerli, arbitrumGoerli],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
     publicProvider()
