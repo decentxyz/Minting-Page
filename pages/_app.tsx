@@ -5,7 +5,6 @@ import type { AppProps } from 'next/app';
 import Navbar from '../components/Navbar/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Analytics } from "@vercel/analytics/react";
 import { configureChains, WagmiConfig, createClient } from 'wagmi';
 import { arbitrum, optimism, mainnet, polygon } from "wagmi/chains";
 import { alchemyProvider } from 'wagmi/providers/alchemy';
@@ -32,7 +31,7 @@ const { chains, provider, webSocketProvider } = configureChainsConfig;
 
 const { connectors } = getDefaultWallets({
   appName: 'Minting Page',
-  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string,
+  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_ID as string,
   chains,
 });
 
@@ -59,7 +58,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
       <Navbar />
       <Component {...pageProps} />
-      <Analytics />
       <ToastContainer />
     </RainbowKitProvider>
   </WagmiConfig>

@@ -6,7 +6,8 @@ import Image from 'next/image';
 import MarketplaceButtons from '../components/MarketplaceButtons';
 import { getDecentNftDetails, getNftDetails } from '../lib/getReleaseDetails';
 import CountdownText from '../components/CountdownText';
-import MintButton from '../components/MintButton';
+// import MintButton from '../components/MintButton';
+import Box from '../components/Box';
 
 const Home: NextPage = (props: any) => {
   const blurRef = useRef<HTMLDivElement | null>(null);
@@ -79,7 +80,7 @@ const Home: NextPage = (props: any) => {
           <div className='px-8 border-black border-t pt-8 md:inline-block w-full hidden pb-16'>
             <div className='w-full'> 
             {/* -------------------------MAKE SURE TO UPDATE THE BOX-------------------------- */}
-            <MintButton />
+            <Box constants={props.constants} nftDetails={props.nftDetails} />
             {/* ------------------------------------------------------------------------------ */}
             </div>
           </div>
@@ -104,7 +105,7 @@ const Home: NextPage = (props: any) => {
         </div>
         <div className='w-full flex justify-center my-12 md:hidden'>
           {/* -------------------------THE BOX-------------------------- */}
-          <MintButton />
+          <Box constants={props.constants} nftDetails={props.nftDetails} />
           {/* ----------------------------------------------------------- */}
         </div>
       </div>
