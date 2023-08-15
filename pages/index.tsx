@@ -129,10 +129,11 @@ export async function getStaticProps() {
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
     decentNft: false,
-    address: '0x3146975BFCCAE722F802BC0Cd540dB1e6c178D1F',
+    // ANOTHER BLOCK NFT; CHECK PHASE IN READ CONTRACT FOR DETAILS
+    address: '0x8b2937eAD425CCC91Fc0ad884638Dc2129c51CB2',
     chainId: ChainId.BASE,
-    mintPrice: "0.01",
-    sellOutDate: 1691769600
+    mintPrice: "0.0022",
+    sellOutDate: 1692028800
   }
   {/* --------------------------------------------------------------- */}
 
