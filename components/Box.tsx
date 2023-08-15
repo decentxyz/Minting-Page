@@ -11,11 +11,11 @@ import { parseUnits } from "viem";
 const Box = (props:any):JSX.Element => {
   const { address: account } = useAccount();
   const [quantity, setQuantity] = useState(1);
-  const mintPrice = parseFloat(props.constants.mintPrice);
-  const chainId = props.constants.chainId;
-  const contractFee:number = chainId && getContractFee(chainId);
-  const total = (mintPrice + contractFee) * quantity;
-  const price = total.toString();
+  // const mintPrice = parseFloat(props.constants.mintPrice);
+  // const chainId = props.constants.chainId;
+  // const contractFee:number = chainId && getContractFee(chainId);
+  // const total = (mintPrice + contractFee) * quantity;
+  // const price = total.toString();
 
   return <div>
     <div className='text-xl font-[400] pb-4'>Mint:</div>
@@ -27,7 +27,7 @@ const Box = (props:any):JSX.Element => {
     <TheBox
       className="rounded-lg border shadow-md bg-white dark"
       paymentButtonText="Pay now"
-      actionType={ActionType.NftMint}
+      actionType={ActionType.NftPreferMint}
       actionConfig={{
         contractAddress: props.constants.address,
         chainId: props.constants.chainId,
@@ -37,7 +37,10 @@ const Box = (props:any):JSX.Element => {
         //---
         cost: {
           isNative: true,
-          amount: parseUnits(price, 18),
+          amount: parseUnits(props.constants.mintPrice, 18),
+        },
+        supplyConfig: {
+          sellOutDate: props.constants.sellOutDate,
         },
       }}
       onTxReceipt={() => toast.success("Successfully minted!")}
