@@ -7,6 +7,7 @@ import MarketplaceButtons from '../components/MarketplaceButtons';
 import { getDecentNftDetails, getNftDetails } from '../lib/getReleaseDetails';
 import CountdownText from '../components/CountdownText';
 import Box from "../components/Box";
+import { ChainId } from '@decent.xyz/the-box';
 
 const Home: NextPage = (props: any) => {
   const blurRef = useRef<HTMLDivElement | null>(null);
@@ -129,11 +130,10 @@ export async function getStaticProps() {
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
     decentNft: true,
-    address: '0x80F4bABDcba710E6B0C07c760c3C5B061C31b6C0',
-    chainId: 10,
+    address: '0x3146975BFCCAE722F802BC0Cd540dB1e6c178D1F',
+    chainId: ChainId.POLYGON,
     mintPrice: "0.0",
-    maxTokens: 4294967295,
-    sellOutDate: 4294967295
+    sellOutDate: 1693400400
   }
   {/* --------------------------------------------------------------- */}
 
