@@ -22,7 +22,7 @@ const Box = (props:any):JSX.Element => {
     <TheBox
       className="rounded-lg border shadow-md bg-white dark"
       paymentButtonText="Pay now"
-      actionType={ActionType.NftMint}
+      actionType={ActionType.NftPreferMint}
       actionConfig={{
         contractAddress: props.constants.address,
         chainId: props.constants.chainId,
@@ -34,6 +34,9 @@ const Box = (props:any):JSX.Element => {
           isNative: true,
           amount: parseUnits(props.constants.mintPrice, 18),
         },
+        supplyConfig: {
+          maxCap: props.constants.maxTokens
+        }
       }}
       onTxReceipt={() => toast.success("Successfully minted!")}
       apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
