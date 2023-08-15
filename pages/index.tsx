@@ -16,7 +16,7 @@ const Home: NextPage = (props: any) => {
   const [isVideo, setIsVideo] = useState(false);
 
   function checkVideo() {
-    if (props.nftDetails.metadata.mimeType.indexOf("mp4") !== -1) {
+    if (props.nftDetails.metadata?.mimeType?.indexOf("mp4") !== -1) {
       setIsVideo(true);
     } else {
       return;
@@ -74,7 +74,7 @@ const Home: NextPage = (props: any) => {
           <div className='px-8 border-black border-t pt-8 md:inline-block w-full hidden pb-16'>
             <div className='w-full'> 
             {/* -------------------------MAKE SURE TO UPDATE THE BOX-------------------------- */}
-            <Box constants={props.constants} nftDetails={props.nftDetails} />
+            <Box constants={props.constants} />
             {/* ------------------------------------------------------------------------------ */}
             </div>
           </div>
@@ -99,7 +99,7 @@ const Home: NextPage = (props: any) => {
         </div>
         <div className='w-full flex justify-center my-12 md:hidden'>
           {/* -------------------------THE BOX-------------------------- */}
-          <Box constants={props.constants} nftDetails={props.nftDetails} />
+          <Box constants={props.constants} />
           {/* ----------------------------------------------------------- */}
         </div>
       </div>
@@ -128,12 +128,11 @@ export async function getStaticProps() {
   {/* -------------------------NFT Settings-------------------------- */}
   // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
-    decentNft: true,
-    address: '0x80F4bABDcba710E6B0C07c760c3C5B061C31b6C0',
+    decentNft: false,
+    address: '0x053e8354c060f690129071d9C51E069f08F3bbC4',
     chainId: 10,
-    mintPrice: "0.0",
-    maxTokens: 4294967295,
-    sellOutDate: 4294967295
+    mintPrice: "0.01",
+    maxTokens: 100,
   }
   {/* --------------------------------------------------------------- */}
 
