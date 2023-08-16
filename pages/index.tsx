@@ -1,9 +1,7 @@
 import type { NextPage } from 'next';
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import Image from 'next/image';
-import MarketplaceButtons from '../components/MarketplaceButtons';
 import { getDecentNftDetails, getNftDetails } from '../lib/getReleaseDetails';
 import CountdownText from '../components/CountdownText';
 import BoxModal from "../components/BoxModal";

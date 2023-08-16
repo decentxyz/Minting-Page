@@ -23,10 +23,8 @@ const Box = (props:any):JSX.Element => {
       actionConfig={{
         contractAddress: props.constants.address,
         chainId: props.constants.chainId,
-        // --- 
         signature: "function mint(address to,uint256 numberOfTokens) payable",
         args: [account, quantity],
-        //---
         cost: {
           isNative: true,
           amount: parseUnits(price, 18),
