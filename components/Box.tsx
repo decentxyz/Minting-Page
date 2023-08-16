@@ -15,7 +15,7 @@ const Box = (props:any):JSX.Element => {
   const total = (mintPrice + contractFee) * quantity;
   const price = total.toString();
 
-  return <div>
+  return <div className="max-w-[500px]">
     <TheBox
       className=""
       paymentButtonText={`Mint ${quantity}`}
@@ -35,7 +35,6 @@ const Box = (props:any):JSX.Element => {
           sellOutDate: props.constants.sellOutDate
         }
       }}
-      onTxPending={() => props.setIsOpen(false)}
       onTxReceipt={() => toast.success("Successfully minted!")}
       apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
     />

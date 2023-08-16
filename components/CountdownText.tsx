@@ -14,7 +14,6 @@ export default function CountdownText({ dropTime, dropCallback, className }: Cou
   const {days, hours, minutes, seconds} = useCountdown(dropTime, dropCallback);
 
   if (!mounted) {
-    // for hydration and robots...
     return <span>at {dropTime.toLocaleString("en-US")}</span>
   } 
 

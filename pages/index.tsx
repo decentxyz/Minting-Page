@@ -13,7 +13,7 @@ import ConnectWallet from '../components/ConnectWallet';
 import { Axelar , Squid, Decent, Polygon, Soulbound } from "../public/images";
 
 const Home: NextPage = (props: any) => {
-  const endDate = new Date(props.constants.sellOutDate);
+  const endDate = new Date(props.constants.sellOutDate * 1000);
   const [nftsMinted, setNftsMinted] = useState("");
   const [isOpen, setIsOpen] = useState(false)
 
@@ -48,8 +48,8 @@ const Home: NextPage = (props: any) => {
     </Head>
 
     <main>
-      <BoxModal className="bg-white md:w-1/3 sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
-        <Box constants={props.constants} setIsOpen={setIsOpen} />
+      <BoxModal className="bg-white md:w-1/3 md:max-w-[500px] sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
+        <Box constants={props.constants} />
       </BoxModal>
       <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
         <div className='md:w-1/2 w-full bg-black text-white uppercase p-8'>
@@ -96,7 +96,7 @@ const Home: NextPage = (props: any) => {
                       <p className='text-right'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | OPEN</p>
                       •
                       <p>ENDS:</p>
-                      <CountdownText className='' dropTime={endDate} />
+                      <CountdownText dropTime={endDate} />
                     </div>
                   </div>
                 </div>
@@ -113,8 +113,6 @@ const Home: NextPage = (props: any) => {
 export default Home;
 
 export async function getStaticProps() {
-  {/* -------------------------NFT Settings-------------------------- */}
-  // change constants to fetch your NFT & set data that cannot be determined dynamically
   let constants = {
     decentNft: true,
     address: '0x3146975BFCCAE722F802BC0Cd540dB1e6c178D1F',
@@ -122,15 +120,8 @@ export async function getStaticProps() {
     mintPrice: "0.0",
     sellOutDate: 1693400400
   }
-  {/* --------------------------------------------------------------- */}
 
-  // NOTE: to retrieve metadata for non-Decent NFTs, at least 1 NFT from the collection must already be minted!!
-  let nftDetails;
-  if (constants.decentNft) {
-    nftDetails = await getDecentNftDetails(constants.chainId, constants.address);
-  } else {
-    nftDetails = await getNftDetails(constants.chainId, constants.address);
-  };
+  const nftDetails = await getDecentNftDetails(constants.chainId, constants.address);
 
   return {
     props: {
