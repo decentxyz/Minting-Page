@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter%20Tight:wght@300;400;500;600&display=swap');
+@import './fonts.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html,
-body {
-  font-family: 'Inter Tight', sans-serif;
-  @apply tracking-widest
+.body {
+  @apply font-normal text-lg;
+  min-height: 100vh;
 }
 
 a {

@@ -2,7 +2,6 @@ import "@decent.xyz/the-box/dist/the-box-base.css";
 import '@rainbow-me/rainbowkit/styles.css'; 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import Navbar from '../components/Navbar/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -74,7 +73,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         overlayBlur: 'small',
       })}
       >
-      <Navbar />
       <Component {...pageProps} />
       <ToastContainer />
     </RainbowKitProvider>
