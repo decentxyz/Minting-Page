@@ -81,7 +81,7 @@ const Home: NextPage = (props: any) => {
             </div>
 
             <div className='md:fixed space-y-6 pt-6'>
-              <div className='flex justify-center md:mt-12'>
+              <div className='flex justify-center md:mt-20'>
                 <div className='space-y-3'>
                   <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata.image} height={500} width={500} alt={'nft'} />
                   <div className='flex justify-center'>
