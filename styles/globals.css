@@ -6,7 +6,6 @@
 html,
 .body {
   @apply font-normal text-lg;
-  min-height: 100vh;
 }
 
 a {

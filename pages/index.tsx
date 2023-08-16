@@ -9,9 +9,11 @@ import CountdownText from '../components/CountdownText';
 import BoxModal from "../components/BoxModal";
 import Box from '../components/Box';
 import { ChainId } from '@decent.xyz/the-box';
+import ConnectWallet from '../components/ConnectWallet';
+import { Axelar , Squid, Decent, Polygon, Soulbound } from "../public/images";
 
 const Home: NextPage = (props: any) => {
-  const endDate = new Date(props.nftDetails.saleTimes?.saleEnd);
+  const endDate = new Date(props.constants.sellOutDate);
   const [nftsMinted, setNftsMinted] = useState("");
   const [isOpen, setIsOpen] = useState(false)
 
@@ -24,11 +26,6 @@ const Home: NextPage = (props: any) => {
     }
     loadMints();
   }, [props.constants.address, props.constants.chainId, props.constants.decentNft])
-
-  const paragraphs = props.nftDetails.metadata.description.split('\n\n');
-  const renderedParagraphs = paragraphs.map((paragraph: string, index: number) => (
-    <p className='py-2' key={index}>{paragraph}</p>
-  ));
 
   return <>
     <Head>
@@ -50,42 +47,66 @@ const Home: NextPage = (props: any) => {
       <meta name='twitter:image' content={props.nftDetails.metadata.image} />
     </Head>
 
-    <main className={`${styles.main}`}>
+    <main>
       <BoxModal className="bg-white md:w-1/3 sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
         <Box constants={props.constants} setIsOpen={setIsOpen} />
       </BoxModal>
-      <div className='w-full flex flex-wrap-reverse'>
-        <div className='w-1/2'>
-          <button onClick={() => setIsOpen(true)}>open</button>
-          <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-[#A378FF] pb-4 pt-8 md:mb-0 mb-4'>{props.nftDetails.metadata.title}</h1>
-          <div className='p-8'>
-            {renderedParagraphs}
+      <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
+        <div className='md:w-1/2 w-full bg-black text-white uppercase p-8'>
+          <h1 className='text-[58px]'>squid squad star dance</h1>
+          <p className='text-[28px] py-4'>by jay daniel wright</p>
+
+          <div className='flex justify-between items-center md:w-5/6'>
+            {Polygon(49, 175, 3)}
+            {Soulbound(49, 225)}
+            <Image src="/images/Free.png" height={83} width={165} alt='Free' />
           </div>
+
+          <h1 className='text-[58px]'>a cross-chain minting experience by</h1>
+
+          <div className='flex justify-between items-center py-8 md:w-5/6'>
+            {Decent(59, 203)}
+            <p className='text-xl font-bold'>+</p>
+            {Squid(59, 141)}
+            <p className='text-xl font-bold'>+</p>
+            {Axelar(59, 178)}
+          </div>
+          <h1 className='text-[58px]'>{props.nftDetails?.metadata?.description}</h1>
         </div>
 
-        <div className='w-1/2'>
-          <div className='space-y-3'>
-            <div className='flex justify-center'>
-              <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata.image} height={500} width={500} alt={'nft'} />
+        <div className='md:w-1/2 w-full p-8'>
+          <div className=' md:flex md:justify-center'>
+            <div className='w-full flex justify-end'>
+              <div className='w-fit'>
+                <ConnectWallet />
+              </div>
+            </div>
+
+            <div className='md:fixed space-y-6 pt-6'>
+              <div className='flex justify-center md:mt-12'>
+                <div className='space-y-3'>
+                  <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata.image} height={500} width={500} alt={'nft'} />
+                  <div className='flex justify-center'>
+                    <div>
+                      <button className='px-20 py-[7px] text-2xl text-white bg-black rounded-full' onClick={() => setIsOpen(true)}>Mint</button>
+                    </div>
+                  </div>
+                  <div className='flex justify-center'>
+                    <div className='flex gap-4 font-medium'>
+                      <p className='text-right'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | OPEN</p>
+                      •
+                      <p>ENDS:</p>
+                      <CountdownText className='' dropTime={endDate} />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
           
-
+        </div>
       </div>
     </main>
-
-    {/* <footer className='md:fixed bottom-0 w-full h-[10vh] border-t border-black justify-center flex items-center bg-white relative gap-12'>
-      <div className='flex gap-4'>
-        <p>Claimed:</p>
-        <p className='text-right text-[#A378FF]'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | Open</p>
-      </div>
-      <div className='flex gap-4'>
-        <p>Sale Ends:</p>
-        <CountdownText className='text-[#A378FF] sm:w-40' dropTime={endDate} />
-      </div>
-    </footer> */}
   </>
 };
 

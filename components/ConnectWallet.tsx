@@ -34,7 +34,7 @@ export const ConnectWallet = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <button className="bg-black font-medium py-2 px-4 rounded-md hover:opacity-80 text-white" onClick={openConnectModal} type="button">
+                  <button className="bg-white drop-shadow-md font-medium py-2 px-4 rounded-md hover:opacity-80" onClick={openConnectModal} type="button">
                     Connect
                   </button>
                 );
@@ -49,7 +49,7 @@ export const ConnectWallet = () => {
               }
 
               return (
-                <div className="bg-black font-medium py-2 px-4 rounded-md text-white" style={{ display: 'flex', gap: 12 }}>
+                <div className="bg-white drop-shadow-md font-medium py-2 px-4 rounded-md" style={{ display: 'flex', gap: 12 }}>
                   <button
                     onClick={openChainModal}
                     style={{ display: 'flex', alignItems: 'center' }}
