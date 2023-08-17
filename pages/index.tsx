@@ -11,8 +11,6 @@ import Navbar from '../components/Navbar/Navbar';
 
 const Home: NextPage = () => {
   const blurRef = useRef<HTMLDivElement | null>(null);
-  const noEnd = 4294967295;
-  const [nftsMinted, setNftsMinted] = useState("");
 
   return <>
     <Head>
