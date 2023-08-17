@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Box from "../components/Box";
 import { CellularGenesis } from "../utils/CellularGenesis";
 import MarketplaceButtons from '../components/MarketplaceButtons';
+import Navbar from '../components/Navbar/Navbar';
 
 const Home: NextPage = () => {
   const blurRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +44,7 @@ const Home: NextPage = () => {
       <meta name='twitter:description' content={CellularGenesis.description} />
       <meta name='twitter:image' content={CellularGenesis.image} />
     </Head>
-
+    <Navbar />
     <main className={`${styles.main} md:mt-0 sm:mt-16 mt-28`}>
       <div className='w-full flex flex-wrap'>
         <div className='md:border-r border-black w-full md:w-2/5 relative md:h-[80vh] overflow-y-auto'>
