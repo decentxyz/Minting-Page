@@ -2,8 +2,8 @@ import "@decent.xyz/the-box/dist/the-box-base.css";
 import '@rainbow-me/rainbowkit/styles.css'; 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import Navbar from '../components/Navbar/Navbar';
 import { ToastContainer } from 'react-toastify';
+import { BoxThemeProvider } from "@decent.xyz/the-box";
 import 'react-toastify/dist/ReactToastify.css';
 import {
   RainbowKitProvider,
@@ -28,7 +28,13 @@ import {
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
- 
+
+const myBoxTheme = {
+  mainBgColor: "#FFFFFF",
+  boxSubtleColor2: '#000000',
+  boxDialogBgColor: '#FFFFFF',
+  boxLoadingBadgeColor: '#F0EFEF'
+}
 
 const { chains, publicClient } = configureChains(
   [mainnet, polygon, optimism, arbitrum, base],
@@ -63,22 +69,23 @@ const wagmiConfig = createConfig({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig config={wagmiConfig}>
-    <RainbowKitProvider
-      chains={chains}
-      modalSize="compact"
-      theme={lightTheme({
-        accentColor: '#9969FF',
-        accentColorForeground: 'white',
-        borderRadius: 'small',
-        fontStack: 'system',
-        overlayBlur: 'small',
-      })}
-      >
-      <Navbar />
-      <Component {...pageProps} />
-      <ToastContainer />
-    </RainbowKitProvider>
-  </WagmiConfig>
+      <RainbowKitProvider
+        chains={chains}
+        modalSize="compact"
+        theme={lightTheme({
+          accentColor: '#0052FF',
+          accentColorForeground: 'white',
+          borderRadius: 'small',
+          fontStack: 'system',
+          overlayBlur: 'small',
+        })}
+        >
+        <BoxThemeProvider theme={myBoxTheme}>
+          <Component {...pageProps} />
+        </BoxThemeProvider>
+        <ToastContainer />
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }
 
