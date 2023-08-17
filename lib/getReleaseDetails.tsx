@@ -74,7 +74,7 @@ export const getNftDetails = async (chainId: number, address: string) => {
         description: contractData.description,
         image: contractData.media[0].gateway,
         media: contractData.media[0].gateway,
-        mimeType: contractData.media[0].format 
+        mimeType: contractData.media[0].format || null
       },
       data: {
         totalSupply: contractData.contractMetadata.totalSupply || null,

@@ -17,6 +17,11 @@ const Box = (props:any):JSX.Element => {
   const total = (mintPrice + contractFee) * quantity;
   const price = total.toString();
 
+  const nftAddress = '0x9B97B5A22BCde0414b3b675D1161259366c47C32';
+  const nftId = 2 // ID 2 off an 1155
+  const proof = '0x0000000000000000000000000000000000000000000000000000000000000000' // no allowlist for this release
+  const allocation = 1; 
+
   return <div>
     <div className='text-xl font-[400] pb-4'>Mint:</div>
     {/* Can delete maxQuantity if you do not want to limit the number of NFTs a person can mint at once */}
@@ -32,8 +37,8 @@ const Box = (props:any):JSX.Element => {
         contractAddress: props.constants.address,
         chainId: props.constants.chainId,
         // --- 
-        signature: "function mint(address to,uint256 numberOfTokens) payable",
-        args: [account, quantity],
+        signature: "mint(address _nft_addr,uint256 _token_id,uint256 _num_mint,address _receiver,bytes32[] _proof,uint256 _allowlist_allocation)",
+        args: [nftAddress, nftId, quantity, account, proof, allocation],
         //---
         cost: {
           isNative: true,

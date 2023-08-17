@@ -15,16 +15,7 @@ const Home: NextPage = (props: any) => {
   const [nftsMinted, setNftsMinted] = useState("");
   const [isVideo, setIsVideo] = useState(false);
 
-  function checkVideo() {
-    if (props.nftDetails.metadata.mimeType.indexOf("mp4") !== -1) {
-      setIsVideo(true);
-    } else {
-      return;
-    };
-  };
-
   useEffect(() => {
-    checkVideo();
     async function loadMints() {
       if (props.constants.decentNft) {
         let contract = await getNftDetails(props.constants.chainId, props.constants.address);
@@ -74,7 +65,7 @@ const Home: NextPage = (props: any) => {
           <div className='px-8 border-black border-t pt-8 md:inline-block w-full hidden pb-16'>
             <div className='w-full'> 
             {/* -------------------------MAKE SURE TO UPDATE THE BOX-------------------------- */}
-            <Box constants={props.constants} nftDetails={props.nftDetails} />
+            <Box constants={props.constants} />
             {/* ------------------------------------------------------------------------------ */}
             </div>
           </div>
@@ -99,7 +90,7 @@ const Home: NextPage = (props: any) => {
         </div>
         <div className='w-full flex justify-center my-12 md:hidden'>
           {/* -------------------------THE BOX-------------------------- */}
-          <Box constants={props.constants} nftDetails={props.nftDetails} />
+          <Box constants={props.constants} />
           {/* ----------------------------------------------------------- */}
         </div>
       </div>
@@ -127,13 +118,13 @@ export default Home;
 export async function getStaticProps() {
   {/* -------------------------NFT Settings-------------------------- */}
   // change constants to fetch your NFT & set data that cannot be determined dynamically
+  // Transient Labs contract
   let constants = {
-    decentNft: true,
-    address: '0x80F4bABDcba710E6B0C07c760c3C5B061C31b6C0',
-    chainId: 10,
-    mintPrice: "0.0",
-    maxTokens: 4294967295,
-    sellOutDate: 4294967295
+    decentNft: false,
+    address: '0x9b97b5a22bcde0414b3b675d1161259366c47c32',
+    chainId: 1,
+    mintPrice: "0.02",
+    maxTokens: 10,
   }
   {/* --------------------------------------------------------------- */}
 
