@@ -50,12 +50,12 @@ const Home: NextPage = (props: any) => {
       </BoxModal>
       <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
         <div className='md:w-1/2 w-full bg-black text-white uppercase p-8'>
-          <h1 className='text-[58px]'>squid squad star dance</h1>
-          <p className='text-[28px] py-4'>by jay daniel wright</p>
+          <h1 className='text-[58px]'>{props.nftDetails.metadata.title}</h1>
+          <p className='text-[28px] py-4'>a demo implementation</p>
 
-          <h1 className='text-[58px]'>a cross-chain minting experience by</h1>
+          <h1 className='text-[58px]'>learn more about this nft</h1>
 
-          <h1 className='text-[58px]'>{props.nftDetails?.metadata?.description}</h1>
+          <h1 className='text-[58px]'>{props.nftDetails.metadata.description}</h1>
         </div>
 
         <div className='md:w-1/2 w-full p-8'>
