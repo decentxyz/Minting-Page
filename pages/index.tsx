@@ -8,12 +8,11 @@ import BoxModal from "../components/BoxModal";
 import Box from '../components/Box';
 import { ChainId } from '@decent.xyz/the-box';
 import ConnectWallet from '../components/ConnectWallet';
-import { Axelar , Squid, Decent, Polygon, Soulbound } from "../public/images";
 
 const Home: NextPage = (props: any) => {
   const endDate = new Date(props.constants.sellOutDate * 1000);
   const [nftsMinted, setNftsMinted] = useState("");
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     async function loadMints() {
@@ -23,7 +22,7 @@ const Home: NextPage = (props: any) => {
       }
     }
     loadMints();
-  }, [props.constants.address, props.constants.chainId, props.constants.decentNft])
+  }, [props.constants.address, props.constants.chainId, props.constants.decentNft]);
 
   return <>
     <Head>
@@ -34,12 +33,12 @@ const Home: NextPage = (props: any) => {
       />
       <link rel="icon" href={props.nftDetails.metadata.image} />
       <meta property='og:type' content="website" />
-      <meta property='og:url' content={"https://squid.decent.xyz/"} />
+      <meta property='og:url' content={"https://decent.xyz/"} />
       <meta property='og:image' content={props.nftDetails.metadata.image} />
       <meta property='og:title' content={props.nftDetails.metadata.title} />
       <meta property='og:description' content={props.nftDetails.metadata.description} />
       <meta name='twitter:card' content={"summary_large_image"} />
-      <meta name='twitter:url' content={"https://squid.decent.xyz/"} />
+      <meta name='twitter:url' content={"https://decent.xyz/"} />
       <meta name='twitter:title' content={props.nftDetails.metadata.name} />
       <meta name='twitter:description' content={props.nftDetails.metadata.description} />
       <meta name='twitter:image' content={props.nftDetails.metadata.image} />
@@ -54,21 +53,8 @@ const Home: NextPage = (props: any) => {
           <h1 className='text-[58px]'>squid squad star dance</h1>
           <p className='text-[28px] py-4'>by jay daniel wright</p>
 
-          <div className='flex justify-between items-center md:w-5/6'>
-            {Polygon(49, 175, 3)}
-            {Soulbound(49, 225)}
-            <Image src="/images/Free.png" height={83} width={165} alt='Free' />
-          </div>
-
           <h1 className='text-[58px]'>a cross-chain minting experience by</h1>
 
-          <div className='flex justify-between items-center py-8 md:w-5/6'>
-            {Decent(59, 203)}
-            <p className='text-xl font-bold'>+</p>
-            {Squid(59, 141)}
-            <p className='text-xl font-bold'>+</p>
-            {Axelar(59, 178)}
-          </div>
           <h1 className='text-[58px]'>{props.nftDetails?.metadata?.description}</h1>
         </div>
 
@@ -112,14 +98,19 @@ export default Home;
 
 export async function getStaticProps() {
   let constants = {
-    decentNft: true,
-    address: '0x3146975BFCCAE722F802BC0Cd540dB1e6c178D1F',
+    decentNft: false,
+    address: '0xC749CC7e1Eee842534d841f1A356e50aA071D77D',
     chainId: ChainId.POLYGON,
     mintPrice: "0.0",
-    sellOutDate: 1693400400
+    sellOutDate: 4294967295
   }
 
-  const nftDetails = await getDecentNftDetails(constants.chainId, constants.address);
+  let nftDetails;
+  if (constants.decentNft) {
+    nftDetails = await getDecentNftDetails(constants.chainId, constants.address);
+  } else {
+    nftDetails = await getNftDetails(constants.chainId, constants.address);
+  }
 
   return {
     props: {
