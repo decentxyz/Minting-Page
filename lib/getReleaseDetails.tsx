@@ -23,7 +23,7 @@ export const getDecentNftDetails = async (chainId: number, address: string) => {
         description: contractData.metadata.description,
         media: getIpfsLink(contractData.metadata?.animation_url) || "",
         image: getIpfsLink(contractData.metadata.image),
-        mimeType: contractData.mimeType || null
+        mimeType: contractData.mimeType 
       },
       creator: {
         address: contractData.creator.address,
@@ -69,6 +69,7 @@ export const getNftDetails = async (chainId: number, address: string) => {
     });
     
     const data = contractData.collections[0];
+    console.log(data)
 
     nftDetails = {
       contract:{
@@ -80,6 +81,9 @@ export const getNftDetails = async (chainId: number, address: string) => {
         description: data.description,
         image: data.image, 
       },
+      creator: {
+        address: data.creator,
+      },
       data: {
         totalSupply: data.tokenCount,
         dateCreated: data.mintedTimestamp
@@ -89,4 +93,4 @@ export const getNftDetails = async (chainId: number, address: string) => {
   } catch (e) {
     console.log("error fetching contract data ", e)
   };
-};  
+};    

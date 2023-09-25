@@ -1,5 +1,5 @@
 import "@decent.xyz/the-box/index.css";
-// import '@rainbow-me/rainbowkit/styles.css'; 
+import '@rainbow-me/rainbowkit/styles.css';
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
@@ -24,13 +24,14 @@ import {
   optimism,
   arbitrum,
   base,
+  zora
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
  
 
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base],
+  [mainnet, polygon, optimism, arbitrum, base, zora ],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
     publicProvider()
@@ -40,7 +41,7 @@ const { chains, publicClient } = configureChains(
 const walletConnectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
 const connectors = connectorsForWallets([
   {
-    groupName: 'Box Based Wallets',
+    groupName: 'Box Demo',
     wallets: [
       injectedWallet({ chains }),
       phantomWallet({ chains }),
@@ -58,11 +59,8 @@ const wagmiConfig = createConfig({
   publicClient
 });
 
-console.log("yooo", process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID)
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
      <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
         chains={chains}
@@ -74,18 +72,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           fontStack: 'system',
           overlayBlur: 'small',
         })}
-        > */}
+        >
       <Component {...pageProps} />
       <ToastContainer />
     </RainbowKitProvider>
   </WagmiConfig>
-  </>
   );
 }
 
 export default MyApp;
-
-export async function getServerSideProps(){
-
-  console.log("yooo", process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID)
-}

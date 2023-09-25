@@ -9,11 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@decent.xyz/the-box": "^1.1.43",
-=======
-    "@decent.xyz/the-box": "^1.1.31",
->>>>>>> main
     "@headlessui/react": "^1.7.16",
     "@rainbow-me/rainbowkit": "^1.0.8",
     "axios": "^1.3.4",

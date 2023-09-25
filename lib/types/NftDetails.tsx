@@ -13,9 +13,9 @@ export interface NftDetails {
     image: string,
     mimeType?: string
   },
-  creator?: { // Only fulfilled by Decent API request
+  creator?: {
     address: string,
-    ensName: string
+    ensName?: string
   },
   saleTimes?: { // Only fulfilled by Decent API request
     presaleStart?: string, // timestamp
