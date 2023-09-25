@@ -1,5 +1,5 @@
 import "@decent.xyz/the-box/index.css";
-import '@rainbow-me/rainbowkit/styles.css'; 
+// import '@rainbow-me/rainbowkit/styles.css'; 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
@@ -37,7 +37,7 @@ const { chains, publicClient } = configureChains(
   ]
 );
 
-const walletConnectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID as string;
+const walletConnectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
 const connectors = connectorsForWallets([
   {
     groupName: 'Box Based Wallets',
@@ -58,26 +58,34 @@ const wagmiConfig = createConfig({
   publicClient
 });
 
+console.log("yooo", process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID)
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig config={wagmiConfig}>
-    <RainbowKitProvider
-      chains={chains}
-      modalSize="compact"
-      theme={lightTheme({
-        accentColor: '#9969FF',
-        accentColorForeground: 'white',
-        borderRadius: 'small',
-        fontStack: 'system',
-        overlayBlur: 'small',
-      })}
-      >
+    <>
+     <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider
+        chains={chains}
+        modalSize="compact"
+        theme={lightTheme({
+          accentColor: '#9969FF',
+          accentColorForeground: 'white',
+          borderRadius: 'small',
+          fontStack: 'system',
+          overlayBlur: 'small',
+        })}
+        > */}
       <Component {...pageProps} />
       <ToastContainer />
     </RainbowKitProvider>
   </WagmiConfig>
+  </>
   );
 }
 
 export default MyApp;
+
+export async function getServerSideProps(){
+
+  console.log("yooo", process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID)
+}
