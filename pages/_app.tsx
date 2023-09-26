@@ -41,7 +41,7 @@ const { chains, publicClient } = configureChains(
   ]
 );
 
-const walletConnectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
+const walletConnectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID as string;
 const connectors = connectorsForWallets([
   {
     groupName: 'Box Demo',
