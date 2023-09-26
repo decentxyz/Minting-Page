@@ -7,15 +7,13 @@ import { useAccount } from "wagmi";
 import { parseUnits } from "viem";
 
 const Box = (props:any):JSX.Element => {
+  const { chainId, address, mintPrice, sellOutDate } = props.constants;
   const { address: account } = useAccount();
   const [quantity, setQuantity] = useState(1);
-  // const mintPrice = parseFloat(props.constants.mintPrice);
-  // const chainId = props.constants.chainId;
-  // const contractFee:number = chainId && getContractFee(chainId);
-  // const total = (mintPrice + contractFee) * quantity;
-  // const price = total.toString();\
+  const pp = parseFloat(mintPrice);
+  const total = pp * quantity;
+  const price = total.toString();
 
-  const keyManager = "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E";
 
   return <div className="max-w-[500px]">
     <TheBox
@@ -23,22 +21,21 @@ const Box = (props:any):JSX.Element => {
       paymentButtonText={`Mint ${quantity}`}
       actionType={ActionType.NftPreferMint}
       actionConfig={{
-        contractAddress: props.constants.address,
-        chainId: props.constants.chainId,
-        signature: "function purchase(uint256[] _values, address[] _recipients, address[] _referrers, address[] _keyManagers, bytes[] _data) payable returns (uint256[] tokenIds)",
+        contractAddress: address,
+        chainId: chainId,
+        signature: "function mintWithRewards(address recipient,uint256 quantity,string comment,address mintReferral) payable returns (uint256)",
         args: [
-          [parseUnits(props.constants.mintPrice, 18)],
-          [account],
-          [account],
-          [keyManager],
-          ['0x'],
+          account,
+          quantity,
+          "Minted with The Box.",
+          "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E",
         ],
         cost: {
           isNative: true,
-          amount: parseUnits(props.constants.mintPrice, 18),
+          amount: parseUnits(price, 18),
         },
         supplyConfig: {
-          sellOutDate: props.constants.sellOutDate
+          sellOutDate: sellOutDate
         }
       }}
       onTxReceipt={() => toast.success("Successfully minted!")}

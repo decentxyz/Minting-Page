@@ -69,7 +69,6 @@ export const getNftDetails = async (chainId: number, address: string) => {
     });
     
     const data = contractData.collections[0];
-    console.log(data)
 
     nftDetails = {
       contract:{
