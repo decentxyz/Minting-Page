@@ -4,10 +4,10 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { getDecentNftDetails, getNftDetails } from '../lib/getReleaseDetails';
 import CountdownText from '../components/CountdownText';
-import BoxModal from "../components/BoxModal";
-import Box from '../components/Box';
-import { ChainId } from '@decent.xyz/the-box';
+import Modal from "../components/Box/Modal";
 import ConnectWallet from '../components/ConnectWallet';
+import { nftInfo } from '../components/Box/utils/nftInfo';
+import Box from '../components/Box/CustomBox';
 
 const Home: NextPage = (props: any) => {
   const endDate = new Date(props.constants.sellOutDate * 1000);
@@ -45,9 +45,9 @@ const Home: NextPage = (props: any) => {
     </Head>
 
     <main>
-      <BoxModal className="bg-white md:w-1/3 md:max-w-[500px] sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
-        <Box constants={props.constants} />
-      </BoxModal>
+      <Modal className="bg-white md:w-1/3 md:max-w-[500px] sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
+        <Box />
+      </Modal>
       <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
         <div className='md:w-1/2 w-full bg-black text-white uppercase p-8'>
           <h1 className='text-[58px]'>{props.nftDetails.metadata.title}</h1>
@@ -97,25 +97,20 @@ const Home: NextPage = (props: any) => {
 export default Home;
 
 export async function getStaticProps() {
-  let constants = {
-    decentNft: false,
-    address: '0xC749CC7e1Eee842534d841f1A356e50aA071D77D',
-    chainId: ChainId.POLYGON,
-    mintPrice: "0.0",
-    sellOutDate: 4294967295
-  }
-
   let nftDetails;
-  if (constants.decentNft) {
-    nftDetails = await getDecentNftDetails(constants.chainId, constants.address);
+  if (nftInfo.decentNft) {
+    nftDetails = await getDecentNftDetails(nftInfo.dstChainId, nftInfo.address);
   } else {
-    nftDetails = await getNftDetails(constants.chainId, constants.address);
+    console.log("getting info..")
+    nftDetails = await getNftDetails(nftInfo.dstChainId, nftInfo.address);
+
+    console.log("gotNft", nftDetails)
   }
 
   return {
     props: {
       nftDetails,
-      constants
+      constants: nftInfo
     }
   };
 };

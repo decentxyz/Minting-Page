@@ -77,8 +77,8 @@ export const getNftDetails = async (chainId: number, address: string) => {
       },
       metadata: {
         title: data.name,
-        description: data.description,
-        image: data.image, 
+        description: data.description || 'demo implementation of the box using hooks',
+        image: data.image || '/images/decent-icon.png', 
       },
       data: {
         totalSupply: data.tokenCount,

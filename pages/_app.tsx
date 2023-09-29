@@ -24,6 +24,9 @@ import {
   optimism,
   arbitrum,
   base,
+  avalanche,
+  fantom,
+  moonbeam,
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
