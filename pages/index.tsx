@@ -103,8 +103,6 @@ export async function getStaticProps() {
   } else {
     console.log("getting info..")
     nftDetails = await getNftDetails(nftInfo.dstChainId, nftInfo.address);
-
-    console.log("gotNft", nftDetails)
   }
 
   return {

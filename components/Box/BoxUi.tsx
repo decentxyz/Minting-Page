@@ -6,7 +6,7 @@ import { useSourceContext } from "./contexts/SourceContext";
 import { ChainId } from "@decent.xyz/box-ui";
 import { useAccount } from "wagmi";
 
-// NOTE: this section I believe you have your own designs for; however, including here for completeness.
+// NOTE: this section I believe you have your own designs for; however, including here for comple
 
 const SourceSelectors = () => {
   const { srcChainId, setSrcChainId, srcToken, setSrcToken } = useSourceContext();
