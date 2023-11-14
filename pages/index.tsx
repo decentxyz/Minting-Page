@@ -1,94 +1,78 @@
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import Image from 'next/image';
 import { getDecentNftDetails, getNftDetails } from '../lib/getReleaseDetails';
-import CountdownText from '../components/CountdownText';
-import BoxModal from "../components/BoxModal";
-import Box from '../components/Box';
 import { ChainId } from '@decent.xyz/the-box';
 import ConnectWallet from '../components/ConnectWallet';
-import { formatAddress } from '../lib/formatAddress';
+import SelectFunction from '../components/SelectFunction';
+import { useAccount } from 'wagmi';
+import NumberTicker from '../components/NumberTicker';
+import { TheBox, ActionType } from "@decent.xyz/the-box";
+import { toast } from "react-toastify";
+import { BoxConfig } from '../lib/types/BoxConfig';
 
 const Home: NextPage = (props: any) => {
   const { nftDetails, constants } = props;
-  const endDate = new Date(constants.sellOutDate * 1000);
-  const [nftsMinted, setNftsMinted] = useState("");
-  const [isOpen, setIsOpen] = useState(false)
+  const { address: sender } = useAccount();
+  const [quantity, setQuantity] = useState(1);
 
-  useEffect(() => {
-    async function loadMints() {
-      if (constants.decentNft) {
-        let contract = await getNftDetails(constants.chainId, constants.address);
-        if (contract) setNftsMinted(contract.data.totalSupply?.toLocaleString() || "0");
+
+  const boxConfigs = [
+    { id: 1, name: 'safeMint', signature: "function safeMint(address to)", args: [sender] },
+    { id: 2, name: 'multiMint', signature: "function multiMint(uint256 numberOfTokens, address to)", args: [quantity, sender] },
+    { id: 3, name: 'allowListSafeMint', signature: "function allowListSafeMint(bytes32[] calldata merkleProof, address to)", args: ['0x', sender] },
+    // have to actually generate merkle proof, but this is how it'd look if you could sub in the 0x with the actual proof
+    { id: 4, name: 'allowListMultiMint', signature: "function allowListMultiMint(bytes32[] calldata merkleProof, bytes32[] calldata merkleProof, address to)", args: ['0x', quantity, sender] },
+  ];
+
+  const [selectedSig, setSelectedSig] = useState<BoxConfig>({
+    id: 1,
+    name: 'Connect Wallet',
+    signature: "",
+    args: []
+  });
+
+    useEffect(() => {
+      if (sender) {
+        setSelectedSig(boxConfigs[0])
       }
-    }
-    loadMints();
-  }, [constants.address, constants.chainId, constants.decentNft])
+    }, [sender])
 
   return <>
-    <Head>
-      <title>{nftDetails.metadata.title}</title>
-      <meta
-        name="description"
-        content={nftDetails.metadata.description}
-      />
-      <link rel="icon" href={nftDetails.metadata.image} />
-      <meta property='og:type' content="website" />
-      <meta property='og:url' content={"https://squid.decent.xyz/"} />
-      <meta property='og:image' content={nftDetails.metadata.image} />
-      <meta property='og:title' content={nftDetails.metadata.title} />
-      <meta property='og:description' content={nftDetails.metadata.description} />
-      <meta name='twitter:card' content={"summary_large_image"} />
-      <meta name='twitter:url' content={"https://squid.decent.xyz/"} />
-      <meta name='twitter:title' content={nftDetails.metadata.name} />
-      <meta name='twitter:description' content={nftDetails.metadata.description} />
-      <meta name='twitter:image' content={nftDetails.metadata.image} />
-    </Head>
-
-    <main>
-      <BoxModal className="bg-white md:w-1/3 md:max-w-[500px] sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
-        <Box constants={constants} />
-      </BoxModal>
-      <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
-        <div className='md:w-1/2 w-full bg-black text-white uppercase p-8'>
-          <h1 className='text-[58px]'>{nftDetails.metadata.title}</h1>
-          <p className='text-[28px] py-4'>by {formatAddress(nftDetails.creator.address)}</p>
-
-          <h1 className='text-[34px] leading-[40px]'>{nftDetails?.metadata?.description}</h1>
-        </div>
-
-        <div className='md:w-1/2 w-full p-8'>
-          <div className=' md:flex md:justify-center'>
-            <div className='w-full flex justify-end'>
-              <div className='w-fit'>
-                <ConnectWallet />
-              </div>
-            </div>
-
-            <div className='md:fixed space-y-6 pt-6'>
-              <div className='flex justify-center md:mt-20'>
-                <div className='space-y-3'>
-                  <Image className="drop-shadow-lg rounded-lg" src={nftDetails?.metadata.image} height={500} width={500} alt={'nft'} />
-                  <div className='flex justify-center'>
-                    <div>
-                      <button className='px-20 py-[7px] text-2xl text-white bg-black rounded-full' onClick={() => setIsOpen(true)}>Mint</button>
-                    </div>
-                  </div>
-                  <div className='flex justify-center'>
-                    <div className='flex gap-4 font-medium'>
-                      <p className='text-right'>{constants.decentNft ? nftsMinted : nftDetails.data.totalSupply.toLocaleString()} | OPEN</p>
-                      •
-                      <p>ENDS:</p>
-                      <CountdownText dropTime={endDate} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div>
+    <main className='p-8'>
+      <div className='flex w-full justify-end'>
+        <ConnectWallet />
+      </div>
+      <div className='flex gap-4 items-start'>
+        <p className='font-medium pt-2'>Select Function: </p>
+        <SelectFunction signatures={boxConfigs} selectedSig={selectedSig} setSelectedSig={setSelectedSig}  />
+      </div>
+      <div className='py-8'>
+        <span className='font-medium'>Configuration:</span>
+        {JSON.stringify(selectedSig)}
+      </div>
+      <div className="p-4 w-[500px]">
+        <TheBox
+          className=""
+          paymentButtonText={`Mint ${quantity}`}
+          actionType={ActionType.NftPreferMint}
+          actionConfig={{
+            contractAddress: constants.address,
+            chainId: constants.chainId,
+            signature: selectedSig.signature,
+            args: selectedSig.args,
+            cost: {
+              isNative: true,
+              amount: 10000000000000000n,
+            },
+            supplyConfig: {
+              maxCap: 15000
+            }
+          }}
+          onTxReceipt={() => toast.success("Successfully minted!")}
+          apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
+          chains={[ChainId.ARBITRUM, ChainId.BASE, ChainId.AVALANCHE, ChainId.POLYGON, ChainId.ETHEREUM, ChainId.OPTIMISM]}
+        />
+        <NumberTicker quantity={quantity} setQuantity={setQuantity} maxQuantity={10} />
       </div>
     </main>
   </>
@@ -99,12 +83,13 @@ export default Home;
 export async function getStaticProps() {
   let constants = {
     decentNft: false,
-    address: '0x0651996b6a6eebd1fc697e5735a2dca541bbe06b',
-    chainId: ChainId.BASE,
-    mintPrice: "0.000777",
-    sellOutDate: 4294967295
+    address: '0xA35f30A0ffD33f2bC847C4a3Cbf83b41DA2ddA44',
+    chainId: ChainId.OPTIMISM,
+    mintPrice: "0.01",
+    maxCap: 15000
   }
 
+  // ignore
   let nftDetails;
   if (constants.decentNft) {
     nftDetails = await getDecentNftDetails(constants.chainId, constants.address);
