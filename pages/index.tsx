@@ -19,9 +19,11 @@ const Home: NextPage = (props: any) => {
   const boxConfigs = [
     { id: 1, name: 'safeMint', signature: "function safeMint(address to)", args: [sender] },
     { id: 2, name: 'multiMint', signature: "function multiMint(uint256 numberOfTokens, address to)", args: [quantity, sender] },
-    { id: 3, name: 'allowListSafeMint', signature: "function allowListSafeMint(bytes32[] calldata merkleProof, address to)", args: ['0x', sender] },
     // have to actually generate merkle proof, but this is how it'd look if you could sub in the 0x with the actual proof
+    { id: 3, name: 'allowListSafeMint', signature: "function allowListSafeMint(bytes32[] calldata merkleProof, address to)", args: ['0x', sender] },
     { id: 4, name: 'allowListMultiMint', signature: "function allowListMultiMint(bytes32[] calldata merkleProof, bytes32[] calldata merkleProof, address to)", args: ['0x', quantity, sender] },
+    // not working rn; args not configured correctly
+    { id: 4, name: 'multiWriteToDiscSignature', signature: "function multiWriteToDiscSignature(uint256[] memory tokenIds, uint256[] memory songSelections, uint256 nonce, bytes memory signature)", args: [[1], [1], 42, '0x5f3d6feabf...'] },
   ];
 
   const [selectedSig, setSelectedSig] = useState<BoxConfig>({
@@ -83,7 +85,7 @@ export default Home;
 export async function getStaticProps() {
   let constants = {
     decentNft: false,
-    address: '0xA35f30A0ffD33f2bC847C4a3Cbf83b41DA2ddA44',
+    address: '0x22F90B3971DBe605aa22c02E797041240ff23427',
     chainId: ChainId.OPTIMISM,
     mintPrice: "0.01",
     maxCap: 15000
