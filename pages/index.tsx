@@ -9,12 +9,13 @@ import NumberTicker from '../components/NumberTicker';
 import { TheBox, ActionType } from "@decent.xyz/the-box";
 import { toast } from "react-toastify";
 import { BoxConfig } from '../lib/types/BoxConfig';
+import { signMultiWriteToDisc } from '../lib/signTypedData';
 
 const Home: NextPage = (props: any) => {
   const { nftDetails, constants } = props;
   const { address: sender } = useAccount();
   const [quantity, setQuantity] = useState(1);
-
+  const [sig, setSig] = useState('');
 
   const boxConfigs = [
     { id: 1, name: 'safeMint', signature: "function safeMint(address to)", args: [sender] },
@@ -23,7 +24,7 @@ const Home: NextPage = (props: any) => {
     { id: 3, name: 'allowListSafeMint', signature: "function allowListSafeMint(bytes32[] calldata merkleProof, address to)", args: ['0x', sender] },
     { id: 4, name: 'allowListMultiMint', signature: "function allowListMultiMint(bytes32[] calldata merkleProof, bytes32[] calldata merkleProof, address to)", args: ['0x', quantity, sender] },
     // not working rn; args not configured correctly
-    { id: 4, name: 'multiWriteToDiscSignature', signature: "function multiWriteToDiscSignature(uint256[] memory tokenIds, uint256[] memory songSelections, uint256 nonce, bytes memory signature)", args: [[1], [1], 42, '0x5f3d6feabf...'] },
+    { id: 5, name: 'multiWriteToDiscSignature', signature: "function multiWriteToDiscSignature(uint256[] memory tokenIds, uint256[] memory songSelections, uint256 nonce, bytes memory signature)", args: [[1], [1], 42, sig] },
   ];
 
   const [selectedSig, setSelectedSig] = useState<BoxConfig>({
@@ -37,7 +38,23 @@ const Home: NextPage = (props: any) => {
       if (sender) {
         setSelectedSig(boxConfigs[0])
       }
-    }, [sender])
+    }, [sender]);
+
+    useEffect(() => {
+      async function loadSig() {
+        if (sig == '') {
+          let mockedSig = await signMultiWriteToDisc(
+            constants.address,
+            [1n],
+            [1n],
+            42n,
+            BigInt(ChainId.OPTIMISM)
+          );
+          if (mockedSig) setSig(mockedSig);
+        }
+      };
+      loadSig();
+    }, [constants.address, selectedSig]);
 
   return <>
     <main className='p-8'>
