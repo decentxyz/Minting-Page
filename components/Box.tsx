@@ -17,7 +17,7 @@ const Box = (props:any):JSX.Element => {
   // const total = (mintPrice + contractFee) * quantity;
   // const price = total.toString();\
 
-  const keyManager = "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E";
+  let p;
 
   return <div className="max-w-[500px]">
     <TheBox
@@ -29,8 +29,7 @@ const Box = (props:any):JSX.Element => {
         chainId: props.constants.chainId,
         signature: "function mintTo(tuple p)",
         args: [
-          [['0x77570069EF75035b9d0A433C1627F7372b08939E',1,0,'0x00005fF8b061293B72E0F49C7eBc066d19e162ad',0,1700778900,4294967295,10000,2147483647,9071,500,0,false,false,'0x0000000000000000000000000000000000000000000000000000000000000000','0x0000000000000000000000000000000000000000000000000000000000000000','0x0000000000000000000000000000000000000000',false]]
-,
+          [p = {"affiliate":"0x0000000000000000000000000000000000000000","affiliateProof":[],"allowlistProof":[],"allowlisted":"0x0000000000000000000000000000000000000000","allowlistedQuantity":4294967295,"attributionId":"0","edition":`${props.constants.address}`,"quantity":quantity,"scheduleNum":0,"signature":"0x0000000000000000000000000000000000000000","signedClaimTicket":0,"signedDeadline":0,"signedPrice":"0","signedQuantity":0,"tier":1,"to":`${account}`}]
         ],
         cost: {
           isNative: true,
