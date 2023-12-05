@@ -17,8 +17,6 @@ const Box = (props:any):JSX.Element => {
   // const total = (mintPrice + contractFee) * quantity;
   // const price = total.toString();\
 
-  let p;
-
   return <div className="max-w-[500px]">
     <TheBox
       className=""
@@ -27,9 +25,43 @@ const Box = (props:any):JSX.Element => {
       actionConfig={{
         contractAddress: SUPER_MINTER,
         chainId: props.constants.chainId,
-        signature: "function mintTo(tuple p)",
+        signature: `function mintTo((\
+          address edition,\
+          uint8 tier,\
+          uint8 scheduleNum,\
+          address to,\
+          uint32 quantity,\
+          address allowlisted,\
+          uint32 allowlistedQuantity,\
+          bytes32[] allowlistProof,\
+          uint96 signedPrice,\
+          uint32 signedQuantity,\
+          uint32 signedClaimTicket,\
+          uint32 signedDeadline,\
+          bytes signature,\
+          address affiliate,\
+          bytes32[] affiliateProof,\
+          uint256 attributionId\
+        )) payable`,
         args: [
-          [p = {"affiliate":"0x0000000000000000000000000000000000000000","affiliateProof":[],"allowlistProof":[],"allowlisted":"0x0000000000000000000000000000000000000000","allowlistedQuantity":4294967295,"attributionId":"0","edition":`${props.constants.address}`,"quantity":quantity,"scheduleNum":0,"signature":"0x0000000000000000000000000000000000000000","signedClaimTicket":0,"signedDeadline":0,"signedPrice":"0","signedQuantity":0,"tier":1,"to":`${account}`}]
+          {
+             edition: props.constants.address,
+             tier: 1,
+             scheduleNum: 0,
+             to: account,
+             quantity: quantity,
+             allowlisted: "0x0000000000000000000000000000000000000000",
+             allowlistedQuantity: 4294967295,
+             allowlistProof: [],
+             signedPrice: 0,
+             signedQuantity: 0,
+             signedClaimTicket: 0,
+             signedDeadline: 0,
+             signature: [],
+             affiliate: "0x0000000000000000000000000000000000000000",
+             affiliateProof: [],
+             attributionId: 0,
+          }
         ],
         cost: {
           isNative: true,
