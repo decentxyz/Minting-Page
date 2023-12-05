@@ -23,7 +23,7 @@ export const getDecentNftDetails = async (chainId: number, address: string) => {
         description: contractData.metadata.description,
         media: getIpfsLink(contractData.metadata?.animation_url) || "",
         image: getIpfsLink(contractData.metadata.image),
-        mimeType: contractData.mimeType 
+        mimeType: contractData.mimeType || null
       },
       creator: {
         address: contractData.creator.address,
@@ -48,37 +48,41 @@ export const getDecentNftDetails = async (chainId: number, address: string) => {
 }
 
 enum Endpoint {
-  "eth" = 1,
-  "opt" = 10,
-  "polygon" = 137,
-  "arb" = 42161
-}
+  "" = 1,
+  "api-optimism" = 10,
+  "api-polygon" = 137,
+  "api-arbitrum" = 42161,
+  "api-base" = 8453
+};
 
 export const getNftDetails = async (chainId: number, address: string) => {
   let nftDetails: NftDetails;
   try {
-    const url = `https://${Endpoint[chainId]}-mainnet.g.alchemy.com/nft/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}/getNFTMetadata?contractAddress=${address}&tokenId=0`;
+    const url = `https://${Endpoint[chainId]}.reservoir.tools/collections/v6`;
     const { data: contractData } = await axios.get(url, {
       headers: {
-        accept: 'application/json',
+        "x-api-key": process.env.RESERVOIR_API_KEY as string,
+      },
+      params: {
+        contract: address
       }
     });
+    
+    const data = contractData.collections[0];
+
     nftDetails = {
       contract:{
-        address: contractData.contract.address,
-        type: contractData.id.tokenMetadata.tokenType
+        address: data.primaryContract,
+        type: data.contractKind
       },
       metadata: {
-        title: contractData.title,
-        symbol: contractData.contractMetadata.symbol || null,
-        description: contractData.description,
-        image: contractData.media[0].gateway,
-        media: contractData.media[0].gateway,
-        mimeType: contractData.media[0].format || null, 
+        title: data.name,
+        description: data.description,
+        image: data.image, 
       },
       data: {
-        totalSupply: contractData.contractMetadata.totalSupply || null,
-        dateCreated: contractData.timeLastUpdated
+        totalSupply: data.tokenCount,
+        dateCreated: data.mintedTimestamp
       }
     };
     return nftDetails;

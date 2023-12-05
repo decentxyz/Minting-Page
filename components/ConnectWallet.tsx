@@ -34,7 +34,7 @@ export const ConnectWallet = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <button className="bg-black font-medium py-3 px-4 rounded-md hover:opacity-80 text-white" onClick={openConnectModal} type="button">
+                  <button className="bg-white drop-shadow-md font-medium py-2 px-4 rounded-md hover:opacity-80" onClick={openConnectModal} type="button">
                     Connect
                   </button>
                 );
@@ -42,14 +42,14 @@ export const ConnectWallet = () => {
 
               if (chain.unsupported) {
                 return (
-                  <button className="bg-red-500 font-medium py-3 px-4 rounded-md hover:text-gray-800" onClick={openChainModal} type="button">
+                  <button className="bg-red-500 font-medium py-2 px-4 rounded-md hover:text-gray-800" onClick={openChainModal} type="button">
                     Wrong network
                   </button>
                 );
               }
 
               return (
-                <div className="bg-black font-medium py-3 px-4 rounded-md text-white" style={{ display: 'flex', gap: 12 }}>
+                <div className="bg-white drop-shadow-md font-medium py-2 px-4 rounded-md" style={{ display: 'flex', gap: 12 }}>
                   <button
                     onClick={openChainModal}
                     style={{ display: 'flex', alignItems: 'center' }}

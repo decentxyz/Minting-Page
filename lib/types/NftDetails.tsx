@@ -3,7 +3,7 @@ import { BigNumber } from "ethers";
 export interface NftDetails {
   contract: {
     address: string,
-    type: string,
+    type?: string,
   },
   metadata: {
     title: string,
@@ -11,7 +11,7 @@ export interface NftDetails {
     description: string,
     media?: string,
     image: string,
-    mimeType: string
+    mimeType?: string
   },
   creator?: { // Only fulfilled by Decent API request
     address: string,

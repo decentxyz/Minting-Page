@@ -1,52 +1,51 @@
 import { TheBox } from "@decent.xyz/the-box";
-import { ethers } from "ethers";
+import { ActionType } from "@decent.xyz/box-common";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import NumberTicker from "./NumberTicker";
-import { useAccount, useSigner } from "wagmi";
-
-{/* IMPORTANT UPDATE: need to make sure the mint params are valid for your NFT.  The information below is works for all Decent NFTs & should serve as a good example of what correct inputs look like.  If you are using a Decent NFT, you do not need to change this!  If you are not, then you do need to update the abi and params -- the rest of the information SHOULD be set in getStaticProps on index.tsx, but be sure to double check. */}
+import { useAccount } from "wagmi";
+// import { getContractFee } from "../lib/getContractFee";
+import { parseUnits } from "viem";
 
 const Box = (props:any):JSX.Element => {
   const { address: account } = useAccount();
-  const { data: signer } = useSigner();
   const [quantity, setQuantity] = useState(1);
+  const SUPER_MINTER = '0x0000000000CF4558c36229ac0026ee16D3aE35Cd';
+  // const mintPrice = parseFloat(props.constants.mintPrice);
+  // const chainId = props.constants.chainId;
+  // const contractFee:number = chainId && getContractFee(chainId);
+  // const total = (mintPrice + contractFee) * quantity;
+  // const price = total.toString();\
 
-  return <div>
-    <div className='text-xl font-[400] pb-4'>Mint:</div>
-    {/* Can delete maxQuantity if you do not want to limit the number of NFTs a person can mint at once */}
-    <div className="pb-6">
-      <NumberTicker quantity={quantity} setQuantity={setQuantity} maxQuantity={10} />
-    </div>
-    {/* ----------------------------------------------------------- */}
+  const keyManager = "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E";
+
+  return <div className="max-w-[500px]">
     <TheBox
-      className={`${props.className}`}
-      signer={signer || null}
-      nftParams={{
-        address: props.constants.address,
+      className=""
+      paymentButtonText={`Mint ${quantity}`}
+      actionType={ActionType.NftPreferMint}
+      actionConfig={{
+        contractAddress: SUPER_MINTER,
         chainId: props.constants.chainId,
-        paymentToken: ethers.constants.AddressZero,
-        mintParams: {
-          abi: "function mint(address to, uint256 quantity) payable",
-          params: [account, quantity],  
-          cost: ethers.utils.parseEther(props.constants.mintPrice),
-          endSupply: {// only need one of the below
-            maxCap: props.constants.maxTokens,
-            // sellOutDate: props.constants.sellOutDate,
-          }
+        signature: "function mintTo(tuple p)",
+        args: [
+          [['0x77570069EF75035b9d0A433C1627F7372b08939E',1,0,'0x00005fF8b061293B72E0F49C7eBc066d19e162ad',0,1700778900,4294967295,10000,2147483647,9071,500,0,false,false,'0x0000000000000000000000000000000000000000000000000000000000000000','0x0000000000000000000000000000000000000000000000000000000000000000','0x0000000000000000000000000000000000000000',false]]
+,
+        ],
+        cost: {
+          isNative: true,
+          amount: parseUnits(props.constants.mintPrice, 18),
         },
-        displayCost: `${props.constants.mintPrice}${' '}${props.constants.chainId === 137 ? 'MATIC' : "ETH"}`
-      }}
-      options={{
-        allowSecondary: true,
-        allowPrimary: true,
-        allowBridging: true,
-        allowSwapping: true
+        supplyConfig: {
+          sellOutDate: props.constants.sellOutDate
+        }
       }}
       onTxReceipt={() => toast.success("Successfully minted!")}
       apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
     />
-    {/* ----------------------------------------------------------- */}
+    <div className="px-4">
+      <NumberTicker quantity={quantity} setQuantity={setQuantity} maxQuantity={10} />
+    </div>
   </div>
 };
 

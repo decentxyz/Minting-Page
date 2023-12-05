@@ -1,51 +1,67 @@
-import "@decent.xyz/the-box/dist/the-box-base.css";
+import "@decent.xyz/the-box/index.css";
 import '@rainbow-me/rainbowkit/styles.css'; 
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import Navbar from '../components/Navbar/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Analytics } from "@vercel/analytics/react";
-import { configureChains, WagmiConfig, createClient } from 'wagmi';
-import { arbitrum, optimism, mainnet, polygon } from "wagmi/chains";
+import {
+  RainbowKitProvider,
+  lightTheme
+} from '@rainbow-me/rainbowkit';
+import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+import {
+  injectedWallet,
+  rainbowWallet,
+  metaMaskWallet,
+  coinbaseWallet,
+  phantomWallet,
+  walletConnectWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import {
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  base,
+} from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { RainbowKitProvider, getDefaultWallets, lightTheme } from "@rainbow-me/rainbowkit";
  
-const configureChainsConfig = configureChains(
+
+const { chains, publicClient } = configureChains(
+  [mainnet, polygon, optimism, arbitrum, base],
   [
-    optimism,
-    arbitrum,
-    polygon,
-    mainnet,
-  ],
-  [
-    alchemyProvider({
-      apiKey: `${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`,
-      priority: 0,
-    }),
-    publicProvider({ priority: 1 }),
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
+    publicProvider()
   ]
 );
 
-const { chains, provider, webSocketProvider } = configureChainsConfig;
+const walletConnectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID as string;
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Box Based Wallets',
+    wallets: [
+      injectedWallet({ chains }),
+      phantomWallet({ chains }),
+      rainbowWallet({ projectId: walletConnectId, chains }),
+      metaMaskWallet({ projectId: walletConnectId, chains }),
+      coinbaseWallet({ chains, appName: 'Based NFTs' }),
+      walletConnectWallet({ projectId: walletConnectId, chains }),
+    ],
+  },
+]);
 
-const { connectors } = getDefaultWallets({
-  appName: 'Minting Page',
-  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string,
-  chains,
-});
-
-const wagmiClient = createClient({
+const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  provider,
-  webSocketProvider,
+  publicClient
 });
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
+    <WagmiConfig config={wagmiConfig}>
     <RainbowKitProvider
       chains={chains}
       modalSize="compact"
@@ -57,9 +73,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         overlayBlur: 'small',
       })}
       >
-      <Navbar />
       <Component {...pageProps} />
-      <Analytics />
       <ToastContainer />
     </RainbowKitProvider>
   </WagmiConfig>

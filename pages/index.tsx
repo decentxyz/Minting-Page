@@ -1,19 +1,19 @@
 import type { NextPage } from 'next';
-import { useRef, useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import Image from 'next/image';
-import MarketplaceButtons from '../components/MarketplaceButtons';
 import { getDecentNftDetails, getNftDetails } from '../lib/getReleaseDetails';
 import CountdownText from '../components/CountdownText';
-import Box from "../components/Box";
+import BoxModal from "../components/BoxModal";
+import Box from '../components/Box';
+import ConnectWallet from '../components/ConnectWallet';
+import { ChainId } from '@decent.xyz/box-common';
 
 const Home: NextPage = (props: any) => {
-  const blurRef = useRef<HTMLDivElement | null>(null);
-  const noEnd = 4294967295;
-  const endDate = new Date(props.nftDetails.saleTimes?.saleEnd * 1000) || noEnd;
+  const endDate = new Date(props.constants.sellOutDate * 1000);
   const [nftsMinted, setNftsMinted] = useState("");
   const [isVideo, setIsVideo] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   // function checkVideo() {
   //   if (props.nftDetails?.metadata?.mimeType.indexOf("mp4") !== -1) {
@@ -32,17 +32,7 @@ const Home: NextPage = (props: any) => {
       }
     }
     loadMints();
-  }, [props.constants.address, props.constants.chainId, props.constants.decentNft])
-
-  useEffect(() => {
-    if (blurRef.current) blurRef.current.style.display = "none";
-    setTimeout(() => blurRef.current && (blurRef.current.style.display = "block"))
-  }, []);
-
-  const paragraphs = props.nftDetails.metadata.description.split('\n\n');
-  const renderedParagraphs = paragraphs.map((paragraph: string, index: number) => (
-    <p className='py-2' key={index}>{paragraph}</p>
-  ));
+  }, [props.constants.address, props.constants.chainId, props.constants.decentNft]);
 
   return <>
     <Head>
@@ -53,72 +43,61 @@ const Home: NextPage = (props: any) => {
       />
       <link rel="icon" href={props.nftDetails.metadata.image} />
       <meta property='og:type' content="website" />
-      <meta property='og:url' content={"https://featured.decent.xyz/"} />
+      <meta property='og:url' content={"https://decent.xyz/"} />
       <meta property='og:image' content={props.nftDetails.metadata.image} />
       <meta property='og:title' content={props.nftDetails.metadata.title} />
       <meta property='og:description' content={props.nftDetails.metadata.description} />
       <meta name='twitter:card' content={"summary_large_image"} />
-      <meta name='twitter:url' content={"https://featured.decent.xyz/"} />
+      <meta name='twitter:url' content={"https://decent.xyz/"} />
       <meta name='twitter:title' content={props.nftDetails.metadata.name} />
       <meta name='twitter:description' content={props.nftDetails.metadata.description} />
       <meta name='twitter:image' content={props.nftDetails.metadata.image} />
     </Head>
 
-    <main className={`${styles.main} md:mt-0 sm:mt-16 mt-28`}>
-      <div className='w-full flex flex-wrap'>
-        <div className='md:border-r border-black w-full md:w-2/5 relative md:h-[80vh] overflow-y-auto'>
-          <h1 className='px-8 2xl:text-6xl md:text-7xl text-6xl flex-items-center text-[#A378FF] pb-4 pt-8 md:mb-0 mb-4'>{props.nftDetails.metadata.title}</h1>
-          <div className='p-8'>
-            {renderedParagraphs}
-          </div>
-          <div className='px-8 border-black border-t pt-8 md:inline-block w-full hidden pb-16'>
-            <div className='w-full'> 
-            {/* -------------------------MAKE SURE TO UPDATE THE BOX-------------------------- */}
-            <Box constants={props.constants} nftDetails={props.nftDetails} />
-            {/* ------------------------------------------------------------------------------ */}
-            </div>
-          </div>
+    <main>
+      <BoxModal className="bg-white md:w-1/3 md:max-w-[500px] sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
+        <Box constants={props.constants} />
+      </BoxModal>
+      <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
+        <div className='md:w-1/2 w-full bg-black text-white uppercase p-8'>
+          <h1 className='text-[58px]'>Test Sound NFT</h1>
+
+          <h1 className='text-[30px] py-24'>{props.nftDetails?.metadata?.description}</h1>
         </div>
 
-        <div className='md:w-3/5 collectionBannerFlex flex items-center relative'>
-          {isVideo ? 
-            <video className="drop-shadow-lg rounded-lg absolute inset-0 w-full h-full object-cover" src={props.nftDetails?.metadata.media} autoPlay loop playsInline muted />
-            : <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails.metadata?.image} fill alt={'nft'} />
-          }
-          <div ref={blurRef} className="blurrer"></div>
-          <div className='space-y-3'>
-            <div className='flex justify-center'>
-              {isVideo ? 
-                <div style={{ height: "85%", width: "85%", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
-                  <video className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata.media} autoPlay loop playsInline muted style={{ width: "100%", height: "100%" }} />
+        <div className='md:w-1/2 w-full p-8'>
+          <div className=' md:flex md:justify-center'>
+            <div className='w-full flex justify-end'>
+              <div className='w-fit'>
+                <ConnectWallet />
+              </div>
+            </div>
+
+            <div className='md:fixed space-y-6 pt-6'>
+              <div className='flex justify-center md:mt-20'>
+                <div className='space-y-3'>
+                  <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata.image} height={500} width={500} alt={'nft'} />
+                  <div className='flex justify-center'>
+                    <div>
+                      <button className='px-20 py-[7px] text-2xl text-white bg-black rounded-full' onClick={() => setIsOpen(true)}>Mint</button>
+                    </div>
+                  </div>
+                  <div className='flex justify-center'>
+                    <div className='flex gap-4 font-medium'>
+                      <p className='text-right'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | OPEN</p>
+                      •
+                      <p>ENDS:</p>
+                      <CountdownText dropTime={endDate} />
+                    </div>
+                  </div>
                 </div>
-                : <Image className="drop-shadow-lg rounded-lg" src={props.nftDetails?.metadata.image} height={600} width={600} alt={'nft'} />
-              }
+              </div>
             </div>
           </div>
-        </div>
-        <div className='w-full flex justify-center my-12 md:hidden'>
-          {/* -------------------------THE BOX-------------------------- */}
-          <Box constants={props.constants} nftDetails={props.nftDetails} />
-          {/* ----------------------------------------------------------- */}
+          
         </div>
       </div>
     </main>
-
-    <footer className='md:fixed bottom-0 w-full h-[10vh] border-t border-black justify-center flex items-center bg-white relative gap-12'>
-      <div className='flex gap-4'>
-        <p>Claimed:</p>
-        <p className='text-right text-[#A378FF]'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | {props.constants.maxTokens > 999999 ? "Open" : props.constants.maxTokens}</p>
-      </div>
-      {/* if open indefinitely, replace sale countdown */}
-      <div className='hidden sm:inline-block'>
-        <MarketplaceButtons decentLink={"https://decent.xyz"} />
-      </div>
-      <div className='flex gap-4'>
-        <p>Sale Ends:</p>
-        <CountdownText className='text-[#A378FF] sm:w-40' dropTime={endDate} />
-      </div>
-    </footer>
   </>
 };
 
@@ -127,24 +106,21 @@ export default Home;
 export async function getStaticProps() {
   {/* -------------------------NFT Settings-------------------------- */}
   // change constants to fetch your NFT & set data that cannot be determined dynamically
-  // information for Letter to My Degens PT. 2: https://www.sound.xyz/maliknaim/letter-to-my-degens-pt-2; https://optimistic.etherscan.io/address/0x5031f26FCC8AF88788d5000B73142c4a9f93F8b8#readContract
+  // information for On the Other Side: https://www.sound.xyz/tk/on-the-other-side-w-trey-smith; https://optimistic.etherscan.io/address/0x77570069ef75035b9d0a433c1627f7372b08939e#readContract
   let constants = {
     decentNft: false,
-    address: '0x5031f26FCC8AF88788d5000B73142c4a9f93F8b8',
-    chainId: 10,
-    mintPrice: "0.0001",
-    maxTokens: 2147483647,
-    sellOutDate: 1691812740
+    address: '0x77570069EF75035b9d0A433C1627F7372b08939E',
+    chainId: ChainId.OPTIMISM,
+    mintPrice: "0.000777",
+    sellOutDate: 1711920600
   }
-  {/* --------------------------------------------------------------- */}
 
-  // NOTE: to retrieve metadata for non-Decent NFTs, at least 1 NFT from the collection must already be minted!!
   let nftDetails;
   if (constants.decentNft) {
     nftDetails = await getDecentNftDetails(constants.chainId, constants.address);
   } else {
     nftDetails = await getNftDetails(constants.chainId, constants.address);
-  };
+  }
 
   return {
     props: {
