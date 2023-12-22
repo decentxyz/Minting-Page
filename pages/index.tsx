@@ -108,7 +108,6 @@ const Home: NextPage = (props: any) => {
                     style={{ height: 500, width: 500 }}
                     autoPlay
                     loop
-                    playsInline
                     className='drop-shadow-lg rounded-lg' 
                     src='/superchain.MP4' 
                   />
