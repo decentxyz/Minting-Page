@@ -107,7 +107,7 @@ const Home: NextPage = (props: any) => {
                   <video
                     style={{ height: 500, width: 500 }}
                     autoPlay
-                    loop
+                    muted
                     className='drop-shadow-lg rounded-lg' 
                     src='/superchain.MP4' 
                   />
