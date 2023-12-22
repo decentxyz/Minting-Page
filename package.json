@@ -9,26 +9,28 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@decent.xyz/the-box": "^1.1.31",
+    "@decent.xyz/box-common": "^1.0.15",
+    "@decent.xyz/box-hooks": "^1.0.47",
+    "@decent.xyz/box-ui": "^1.0.45",
+    "@decent.xyz/the-box": "^1.1.64",
     "@headlessui/react": "^1.7.16",
-    "@rainbow-me/rainbowkit": "^1.0.8",
+    "@rainbow-me/rainbowkit": "^1.3.1",
+    "autoprefixer": "^10.4.16",
     "axios": "^1.3.4",
     "ethers": "^5.7.2",
     "next": "^13.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-toastify": "^9.1.1",
-    "viem": "^1.5.4",
-    "wagmi": "^1.3.9"
+    "viem": "^1.20.3",
+    "wagmi": "^1.4.12"
   },
   "devDependencies": {
     "@types/node": "^17.0.35",
-    "@types/react": "^18.0.9",
-    "autoprefixer": "^10.4.12",
-    "eslint": "^8.15.0",
-    "eslint-config-next": "^13.0.0",
+    "@types/react": "^18.2.45",
+    "eslint": "^8.56.0",
     "postcss": "^8.4.17",
-    "tailwindcss": "^3.1.8",
+    "tailwindcss": "^3.4.0",
     "typescript": "^5.1.6"
   },
   "description": "Build your NFT minting page with The Box!",

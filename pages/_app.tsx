@@ -20,17 +20,17 @@ import {
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
   mainnet,
-  polygon,
+  zora,
   optimism,
-  arbitrum,
   base,
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+import { BoxHooksContextProvider } from "@decent.xyz/box-hooks";
  
 
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base],
+  [mainnet, optimism, base, zora],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
     publicProvider()
@@ -73,8 +73,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         overlayBlur: 'small',
       })}
       >
-      <Component {...pageProps} />
-      <ToastContainer />
+      <BoxHooksContextProvider
+        apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
+      >
+        <Component {...pageProps} />
+        <ToastContainer />
+      </BoxHooksContextProvider>
     </RainbowKitProvider>
   </WagmiConfig>
   );

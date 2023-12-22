@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter%20Tight:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html,
 body {
-  font-family: 'Inter Tight', sans-serif;
+  font-family: 'Rubik', sans-serif;
   @apply tracking-widest
 }
 
@@ -77,12 +77,17 @@ h1 {
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
+  padding: 100px 20px;
   min-height: 80vh;
 }
 
-.blurrer {
+/* .blurrer {
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, .2);
   backdrop-filter: blur(150px);
+} */
+
+.blurrer {
+  backdrop-filter: blur(10px);
 }

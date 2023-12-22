@@ -1,41 +1,30 @@
-import { TheBox, ActionType } from "@decent.xyz/the-box";
+import { TheBox } from "@decent.xyz/the-box";
+import { ActionType, ChainId } from "@decent.xyz/box-common";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import NumberTicker from "./NumberTicker";
 import { useAccount } from "wagmi";
-// import { getContractFee } from "../lib/getContractFee";
 import { parseUnits } from "viem";
 
 const Box = (props:any):JSX.Element => {
-  const { address: account } = useAccount();
+  
   const [quantity, setQuantity] = useState(1);
-  // const mintPrice = parseFloat(props.constants.mintPrice);
-  // const chainId = props.constants.chainId;
-  // const contractFee:number = chainId && getContractFee(chainId);
-  // const total = (mintPrice + contractFee) * quantity;
-  // const price = total.toString();\
-
-  const keyManager = "0xAcCC1fe6537eb8EB56b31CcFC48Eb9363e8dd32E";
+  const price = parseFloat(props.constants.mintPrice) * quantity;
 
   return <div className="max-w-[500px]">
     <TheBox
       className=""
       paymentButtonText={`Mint ${quantity}`}
-      actionType={ActionType.NftPreferMint}
+      actionType={ActionType.NftMint}
+      chains={[ChainId.OPTIMISM, ChainId.ZORA, ChainId.BASE, ChainId.ETHEREUM]}
       actionConfig={{
         contractAddress: props.constants.address,
         chainId: props.constants.chainId,
-        signature: "function purchase(uint256[] _values, address[] _recipients, address[] _referrers, address[] _keyManagers, bytes[] _data) payable returns (uint256[] tokenIds)",
-        args: [
-          [parseUnits(props.constants.mintPrice, 18)],
-          [account],
-          [account],
-          [keyManager],
-          ['0x'],
-        ],
+        signature: "function mint(address to, uint256 numberOfTokens)",
+        args: [props.account, quantity],
         cost: {
           isNative: true,
-          amount: parseUnits(props.constants.mintPrice, 18),
+          amount: parseUnits(price.toString(), 18),
         },
         supplyConfig: {
           sellOutDate: props.constants.sellOutDate
