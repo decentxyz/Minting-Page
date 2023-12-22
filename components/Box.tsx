@@ -16,7 +16,12 @@ const Box = (props:any):JSX.Element => {
       className="bg-black text-white"
       paymentButtonText={`Mint ${quantity}`}
       actionType={ActionType.NftMint}
-      chains={[ChainId.OPTIMISM, ChainId.ZORA, ChainId.BASE, ChainId.ETHEREUM]}
+      chains={[
+        ChainId.OPTIMISM, 
+        // ChainId.ZORA, 
+        ChainId.BASE, 
+        // ChainId.ETHEREUM
+      ]}
       actionConfig={{
         contractAddress: props.constants.address,
         chainId: props.constants.chainId,

@@ -47,7 +47,12 @@ const boxTheme = {
 }
 
 const { chains, publicClient } = configureChains(
-  [mainnet, optimism, base, zora],
+  [
+    // mainnet, 
+    optimism, 
+    base, 
+    // zora
+  ],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string }),
     publicProvider()
