@@ -15,12 +15,12 @@ const NumberTicker = (props: any) => {
   return (
     <div className="flex items-center gap-5">
       <button
-        className="font-500 w-10 h-10 rounded-full bg-white border text-black"
+        className="font-500 w-10 h-10 rounded-full bg-black border text-white"
         onClick={() => handleChange(props.quantity - 1)}
       >-</button>
       <input
         max={props.maxQuantity}
-        className="w-full font-semibold flex-1 text-center text-gray-100 no-outline"
+        className="w-full font-semibold flex-1 text-center text-black no-outline"
         style={{ background: 'transparent' }}
         min="1"
         type="number"
@@ -28,7 +28,7 @@ const NumberTicker = (props: any) => {
         value={props.quantity}
       />
       <button
-        className="font-500 w-10 h-10 rounded-full bg-white border text-black"
+        className="font-500 w-10 h-10 rounded-full bg-black border text-white"
         onClick={() => handleChange(props.quantity + 1)}
       >+</button>
     </div>

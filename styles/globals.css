@@ -62,36 +62,14 @@ h1 {
     font-size: small;
   }
 
-  button.xmint-btn:after {
-    content: "Purchase";
-    color: #ffffff;
-    padding-right: 8px;
-}
-
-.collectionBannerFlex, .collectionBannerGrid {
-  width: 100%;
-  position: relative;
-}
-
-.collectionBannerFlex {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  padding: 100px 20px;
-  min-height: 80vh;
-}
-
-/* .blurrer {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, .2);
-  backdrop-filter: blur(150px);
-} */
-
-.blurrer {
-  backdrop-filter: blur(10px);
-}
-
 .no-outline:focus {
   outline: none;
+}
+
+.faint-background {
+  background-image: url('/superchain-thumbnail.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
 }

@@ -71,19 +71,19 @@ const Home: NextPage = (props: any) => {
     <main>
       <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
 
-      <div className='md:w-1/2 w-full bg-black text-white p-8 min-h-screen flex flex-col justify-between'>
+        <div className='md:w-1/2 w-full bg-gray-200 p-8 min-h-screen flex flex-col justify-between'>
           <div className='w-full flex justify-start py-4'>
             <Image src='/optimism-logo.svg' height={30} width={120} alt='optimism' />
           </div>
           <h1 className='text-[60px] mt-12'>{props.nftDetails?.metadata?.title}</h1>
           <p className='text-[24px] py-12'>{props.nftDetails?.metadata?.description}</p>
 
-          <div className='border-t border-white flex flex-wrap-reverse justify-center'>
+          <div className='border-t border-black flex flex-wrap-reverse justify-center'>
             
-            <div className='md:inline-block hidden md:w-1/3 w-full p-4 md:border-r md:border-white space-y-4'>
+            <div className='md:inline-block hidden md:w-1/3 w-full p-4 md:border-r md:border-black space-y-4'>
               {statusContent}
             </div>
-            <div className='w-full flex flex-wrap gap-8 items-center justify-between md:hidden py-4 border-t border-white mt-12'>
+            <div className='w-full flex flex-wrap gap-8 items-center justify-between md:hidden py-4 border-t border-black mt-12'>
               {statusContent}
             </div>
 

@@ -13,7 +13,7 @@ const Box = (props:any):JSX.Element => {
 
   return <div className="max-w-[500px] text-sm">
     <TheBox
-      className="bg-black text-white"
+      className="bg-[#e5e7eb]"
       paymentButtonText={`Mint ${quantity}`}
       actionType={ActionType.NftMint}
       chains={[

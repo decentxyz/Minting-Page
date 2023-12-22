@@ -40,10 +40,10 @@ const boxTheme = {
   chainDropdownBorder: "#000000",
   chainDropdownHoverColor: "#000000",
   chainDropdownBgColor: "#000000",
-  buyBtnBgColor: "#FFFFFF",
-  buyBtnTextColor: "#000000",
+  buyBtnBgColor: "#000000",
+  buyBtnTextColor: "#FFFFFF",
   boxLoadingBadgeColor: "#FF0000",
-  boxDialogBgColor: "#000000",
+  boxDialogBgColor: "#e5e7eb",
 }
 
 const { chains, publicClient } = configureChains(
