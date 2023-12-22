@@ -7,7 +7,8 @@ import CountdownText from '../components/CountdownText';
 import ConnectWallet from '../components/ConnectWallet';
 import Box from '../components/Box';
 import Modal from '../components/BoxModal';
-import { useAccount } from 'wagmi';
+import { Address, useAccount } from 'wagmi';
+import BuyCrypto from '../components/BuyCrypto';
 
 const Home: NextPage = (props: any) => {
   const endDate = new Date(props.constants.sellOutDate * 1000);
@@ -24,6 +25,28 @@ const Home: NextPage = (props: any) => {
     }
     loadMints();
   }, [props.constants.address, props.constants.chainId, props.constants.decentNft]);
+
+  const statusContent = (
+    <>
+      <div>
+        <p className='text-[20px]'>Editions</p>
+        <p className='text-sm'>Open</p>
+      </div>
+      <div>
+        <p className='text-[20px]'>Price</p>
+        <p className='text-sm'>Free</p>
+        <p className='text-xs'>0.00044 Mint Fee</p>
+      </div>
+      <div>
+        <p className='text-[20px]'>Minted</p>
+        <p className='text-sm'>{nftsMinted}</p>
+      </div>
+      <div>
+        <p className='text-[20px]'>Ends</p>
+        <CountdownText className='text-sm' dropTime={endDate} />
+      </div>
+    </>
+  )
 
   return <>
     <Head>
@@ -46,9 +69,6 @@ const Home: NextPage = (props: any) => {
     </Head>
 
     <main>
-      {/* <Modal className="bg-white md:w-1/3 md:max-w-[500px] sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
-        <Box constants={props.constants} account={account} />
-      </Modal> */}
       <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
 
       <div className='md:w-1/2 w-full bg-black text-white p-8 min-h-screen flex flex-col justify-between'>
@@ -59,25 +79,14 @@ const Home: NextPage = (props: any) => {
           <p className='text-[24px] py-12'>{props.nftDetails?.metadata?.description}</p>
 
           <div className='border-t border-white flex flex-wrap-reverse justify-center'>
-            <div className='md:w-1/3 w-full p-4 md:border-r md:border-white space-y-4'>
-              <div className='hidden sm:inline-block'>
-                <p className='text-[20px]'>Editions</p>
-                <p className='text-sm'>Open</p>
-              </div>
-              <div>
-                <p className='text-[20px]'>Price</p>
-                <p className='text-sm'>Free</p>
-                <p className='text-xs'>0.00044 Mint Fee</p>
-              </div>
-              <div className='hidden sm:inline-block'>
-                <p className='text-[20px]'>Minted</p>
-                <p className='text-sm'>{nftsMinted}</p>
-              </div>
-              <div>
-                <p className='text-[20px]'>Ends</p>
-                <CountdownText className='text-sm' dropTime={endDate} />
-              </div>
+            
+            <div className='md:inline-block hidden md:w-1/3 w-full p-4 md:border-r md:border-white space-y-4'>
+              {statusContent}
             </div>
+            <div className='w-full flex flex-wrap gap-8 items-center justify-between md:hidden py-4 border-t border-white mt-12'>
+              {statusContent}
+            </div>
+
             <div className='md:w-2/3 w-full md:px-4'>
               <Box constants={props.constants} account={account} />
             </div>
@@ -86,7 +95,8 @@ const Home: NextPage = (props: any) => {
 
         <div className='md:w-1/2 w-full p-8'>
           <div className='w-full flex justify-end'>
-            <div className='w-fit'>
+            <div className='w-fit flex gap-2'>
+              <BuyCrypto account={account!} />
               <ConnectWallet />
             </div>
           </div>
