@@ -51,16 +51,16 @@ const Home: NextPage = (props: any) => {
       </Modal> */}
       <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
 
-      <div className='md:w-1/2 w-full bg-black text-white p-8 h-screen flex flex-col justify-between'>
+      <div className='md:w-1/2 w-full bg-black text-white p-8 min-h-screen flex flex-col justify-between'>
           <div className='w-full flex justify-start py-4'>
             <Image src='/optimism-logo.svg' height={30} width={120} alt='optimism' />
           </div>
           <h1 className='text-[60px] mt-12'>{props.nftDetails?.metadata?.title}</h1>
           <p className='text-[24px] py-12'>{props.nftDetails?.metadata?.description}</p>
 
-          <div className='border-t border-white flex justify-center'>
-            <div className='w-1/3 p-4 border-r border-white space-y-4'>
-              <div>
+          <div className='border-t border-white flex flex-wrap-reverse justify-center'>
+            <div className='md:w-1/3 w-full p-4 md:border-r md:border-white space-y-4'>
+              <div className='hidden sm:inline-block'>
                 <p className='text-[20px]'>Editions</p>
                 <p className='text-sm'>Open</p>
               </div>
@@ -69,7 +69,7 @@ const Home: NextPage = (props: any) => {
                 <p className='text-sm'>Free</p>
                 <p className='text-xs'>0.00044 Mint Fee</p>
               </div>
-              <div>
+              <div className='hidden sm:inline-block'>
                 <p className='text-[20px]'>Minted</p>
                 <p className='text-sm'>{nftsMinted}</p>
               </div>
@@ -78,7 +78,7 @@ const Home: NextPage = (props: any) => {
                 <CountdownText className='text-sm' dropTime={endDate} />
               </div>
             </div>
-            <div className='w-2/3 px-4'>
+            <div className='md:w-2/3 w-full md:px-4'>
               <Box constants={props.constants} account={account} />
             </div>
           </div>
