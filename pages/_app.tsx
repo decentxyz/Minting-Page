@@ -48,7 +48,7 @@ const boxTheme = {
 
 const { chains, publicClient } = configureChains(
   [
-    // mainnet, 
+    mainnet, 
     optimism, 
     base, 
     // zora

@@ -20,7 +20,7 @@ const Box = (props:any):JSX.Element => {
         ChainId.OPTIMISM, 
         // ChainId.ZORA, 
         ChainId.BASE, 
-        // ChainId.ETHEREUM
+        ChainId.ETHEREUM
       ]}
       actionConfig={{
         contractAddress: props.constants.address,
