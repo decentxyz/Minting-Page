@@ -91,3 +91,7 @@ h1 {
 .blurrer {
   backdrop-filter: blur(10px);
 }
+
+.no-outline:focus {
+  outline: none;
+}

@@ -46,18 +46,42 @@ const Home: NextPage = (props: any) => {
     </Head>
 
     <main>
-      <Modal className="bg-white md:w-1/3 md:max-w-[500px] sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
+      {/* <Modal className="bg-white md:w-1/3 md:max-w-[500px] sm:w-2/3 w-full" isOpen={isOpen} setIsOpen={setIsOpen}>
         <Box constants={props.constants} account={account} />
-      </Modal>
-
+      </Modal> */}
       <div className='w-full flex flex-wrap-reverse min-h-screen overflow-y-auto'>
 
-        <div className='md:w-1/2 w-full bg-black text-white p-8'>
+      <div className='md:w-1/2 w-full bg-black text-white p-8 h-screen flex flex-col justify-between'>
           <div className='w-full flex justify-start py-4'>
             <Image src='/optimism-logo.svg' height={30} width={120} alt='optimism' />
           </div>
-          <h1 className='text-[68px] mt-12'>{props.nftDetails?.metadata?.title}</h1>
-          <p className='text-[28px] py-12'>{props.nftDetails?.metadata?.description}</p>
+          <h1 className='text-[60px] mt-12'>{props.nftDetails?.metadata?.title}</h1>
+          <p className='text-[24px] py-12'>{props.nftDetails?.metadata?.description}</p>
+
+          <div className='border-t border-white flex justify-center'>
+            <div className='w-1/3 p-4 border-r border-white space-y-4'>
+              <div>
+                <p className='text-[20px]'>Editions</p>
+                <p className='text-sm'>Open</p>
+              </div>
+              <div>
+                <p className='text-[20px]'>Price</p>
+                <p className='text-sm'>Free</p>
+                <p className='text-xs'>0.00044 Mint Fee</p>
+              </div>
+              <div>
+                <p className='text-[20px]'>Minted</p>
+                <p className='text-sm'>{nftsMinted}</p>
+              </div>
+              <div>
+                <p className='text-[20px]'>Ends</p>
+                <CountdownText className='text-sm' dropTime={endDate} />
+              </div>
+            </div>
+            <div className='w-2/3 px-4'>
+              <Box constants={props.constants} account={account} />
+            </div>
+          </div>
         </div>
 
         <div className='md:w-1/2 w-full p-8'>
@@ -76,26 +100,12 @@ const Home: NextPage = (props: any) => {
                     loop
                     playsInline
                     className='drop-shadow-lg rounded-lg' 
-                    src='/superchain.MP4' />
-
-                  <div className='flex justify-center'>
-                    <div>
-                      <button className='px-20 py-[7px] text-2xl text-white bg-black rounded-full' onClick={() => setIsOpen(true)}>Mint</button>
-                    </div>
-                  </div>
-                  <div className='flex justify-center'>
-                    <div className='flex gap-4 font-medium'>
-                      <p className='text-right'>{props.constants.decentNft ? nftsMinted : props.nftDetails.data.totalSupply} | OPEN</p>
-                      •
-                      <p>ENDS:</p>
-                      <CountdownText dropTime={endDate} />
-                    </div>
-                  </div>
+                    src='/superchain.MP4' 
+                  />
                 </div>
               </div>
             </div>
           </div>
-          
         </div>
       </div>
     </main>

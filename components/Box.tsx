@@ -11,9 +11,9 @@ const Box = (props:any):JSX.Element => {
   const [quantity, setQuantity] = useState(1);
   const price = parseFloat(props.constants.mintPrice) * quantity;
 
-  return <div className="max-w-[500px]">
+  return <div className="max-w-[500px] text-sm">
     <TheBox
-      className=""
+      className="bg-black text-white"
       paymentButtonText={`Mint ${quantity}`}
       actionType={ActionType.NftMint}
       chains={[ChainId.OPTIMISM, ChainId.ZORA, ChainId.BASE, ChainId.ETHEREUM]}
@@ -34,7 +34,7 @@ const Box = (props:any):JSX.Element => {
       apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
     />
     <div className="px-4">
-      <NumberTicker quantity={quantity} setQuantity={setQuantity} maxQuantity={10} />
+      <NumberTicker quantity={quantity} setQuantity={setQuantity} maxQuantity={1000000} />
     </div>
   </div>
 };

@@ -27,7 +27,24 @@ import {
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { BoxHooksContextProvider } from "@decent.xyz/box-hooks";
+import { BoxThemeProvider } from "@decent.xyz/the-box";
  
+const boxTheme = {
+  mainBgColor: "...",
+  mainTextColor: "...",
+  boxSubtleColor1: "...",
+  boxSubtleColor2: "...",
+  gearCircleColor: "...",
+  loadShineColor1: "...",
+  loadShineColor2: "...",
+  chainDropdownBorder: "#000000",
+  chainDropdownHoverColor: "#000000",
+  chainDropdownBgColor: "#000000",
+  buyBtnBgColor: "#FFFFFF",
+  buyBtnTextColor: "#000000",
+  boxLoadingBadgeColor: "#FF0000",
+  boxDialogBgColor: "#000000",
+}
 
 const { chains, publicClient } = configureChains(
   [mainnet, optimism, base, zora],
@@ -76,7 +93,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <BoxHooksContextProvider
         apiKey={process.env.NEXT_PUBLIC_DECENT_API_KEY as string}
       >
-        <Component {...pageProps} />
+        <BoxThemeProvider theme={boxTheme}>
+          <Component {...pageProps} />
+        </BoxThemeProvider>
         <ToastContainer />
       </BoxHooksContextProvider>
     </RainbowKitProvider>
